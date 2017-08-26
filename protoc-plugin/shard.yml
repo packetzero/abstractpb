@@ -1,0 +1,11 @@
+name: abstractpb-cpp
+version: 0.1.0
+
+authors:
+  - Alex Malone <alex.malone@ziften.com>
+
+dependencies:
+  protobuf:
+    github: jeromegn/protobuf.cr
+
+license: MIT

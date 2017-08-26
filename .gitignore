@@ -1,0 +1,5 @@
+/test/tests-*
+/test/gtest/lib
+/test/gtest/include
+/test/gtest/release
+
