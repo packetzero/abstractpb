@@ -1,10 +1,12 @@
 # AbstractPB : C++11 abstraction layer for Google Protobuffers
 
 ## Example Generated Struct
-![usage code example](./doc/UsageGeneratedAbstractPB.png "Usage code example")
+Using a protoc plugin provided by this project, a simple C++ struct will be generated for each message.  Here is one generated for PaymentDetails.proto [Version 2](example/messagesV2/PaymentDetails.proto) and
+[Version 3](example/messagesV3/PaymentDetailsV3.proto) message definitions.
+![struct example](./doc/ExampleGeneratedAbstractPB.png "struct example")
 
 ## Example Usage
-![usage code example](doc/UsageExample.png "Usage code example")
+![usage code example](doc/ExampleUsage.png "Usage code example")
 
 ## Protobuf Definitions
 
