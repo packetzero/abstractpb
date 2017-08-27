@@ -8,8 +8,6 @@ Using a protoc plugin provided by this project, a simple C++ struct will be gene
 ## Example Usage
 ![usage code example](doc/ExampleUsage.png "Usage code example")
 
-## Protobuf Definitions
-
 ## Goals
 
 ### 1. Simultaneous support for V2 and V3 protobufs without impacting application code
