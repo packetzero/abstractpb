@@ -1,0 +1,432 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		057AC84A1F531E08009FD0DE /* pb_to_apb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 057AC8481F531E08009FD0DE /* pb_to_apb.cc */; };
+		057AC84B1F531E08009FD0DE /* apb_to_pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 057AC8491F531E08009FD0DE /* apb_to_pb.cc */; };
+		057AC8571F531EC9009FD0DE /* Output.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 057AC84D1F531EC9009FD0DE /* Output.pb.cc */; };
+		057AC8581F531EC9009FD0DE /* OutputV3.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 057AC84E1F531EC9009FD0DE /* OutputV3.pb.cc */; };
+		057AC8591F531EC9009FD0DE /* Payment.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 057AC84F1F531EC9009FD0DE /* Payment.pb.cc */; };
+		057AC85A1F531EC9009FD0DE /* PaymentAck.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 057AC8501F531EC9009FD0DE /* PaymentAck.pb.cc */; };
+		057AC85B1F531EC9009FD0DE /* PaymentAckV3.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 057AC8511F531EC9009FD0DE /* PaymentAckV3.pb.cc */; };
+		057AC85C1F531EC9009FD0DE /* PaymentDetails.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 057AC8521F531EC9009FD0DE /* PaymentDetails.pb.cc */; };
+		057AC85D1F531EC9009FD0DE /* PaymentDetailsV3.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 057AC8531F531EC9009FD0DE /* PaymentDetailsV3.pb.cc */; };
+		057AC85E1F531EC9009FD0DE /* PaymentRequest.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 057AC8541F531EC9009FD0DE /* PaymentRequest.pb.cc */; };
+		057AC85F1F531EC9009FD0DE /* PaymentRequestV3.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 057AC8551F531EC9009FD0DE /* PaymentRequestV3.pb.cc */; };
+		057AC8601F531EC9009FD0DE /* PaymentV3.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 057AC8561F531EC9009FD0DE /* PaymentV3.pb.cc */; };
+		05E485441F53244E00964779 /* main.cc in Sources */ = {isa = PBXBuildFile; fileRef = 05E485431F53244E00964779 /* main.cc */; };
+		05E485451F53247200964779 /* libapb-example.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 057AC83C1F531DC9009FD0DE /* libapb-example.a */; };
+		05E485481F53251E00964779 /* libprotobuf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 05E485471F53251E00964779 /* libprotobuf.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		05E4853A1F53243500964779 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		057AC83C1F531DC9009FD0DE /* libapb-example.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libapb-example.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		057AC8481F531E08009FD0DE /* pb_to_apb.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = pb_to_apb.cc; path = ../../apb/pb_to_apb.cc; sourceTree = "<group>"; };
+		057AC8491F531E08009FD0DE /* apb_to_pb.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = apb_to_pb.cc; path = ../../apb/apb_to_pb.cc; sourceTree = "<group>"; };
+		057AC84D1F531EC9009FD0DE /* Output.pb.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Output.pb.cc; path = ../generatedcpp/Output.pb.cc; sourceTree = "<group>"; };
+		057AC84E1F531EC9009FD0DE /* OutputV3.pb.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OutputV3.pb.cc; path = ../generatedcpp/OutputV3.pb.cc; sourceTree = "<group>"; };
+		057AC84F1F531EC9009FD0DE /* Payment.pb.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Payment.pb.cc; path = ../generatedcpp/Payment.pb.cc; sourceTree = "<group>"; };
+		057AC8501F531EC9009FD0DE /* PaymentAck.pb.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PaymentAck.pb.cc; path = ../generatedcpp/PaymentAck.pb.cc; sourceTree = "<group>"; };
+		057AC8511F531EC9009FD0DE /* PaymentAckV3.pb.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PaymentAckV3.pb.cc; path = ../generatedcpp/PaymentAckV3.pb.cc; sourceTree = "<group>"; };
+		057AC8521F531EC9009FD0DE /* PaymentDetails.pb.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PaymentDetails.pb.cc; path = ../generatedcpp/PaymentDetails.pb.cc; sourceTree = "<group>"; };
+		057AC8531F531EC9009FD0DE /* PaymentDetailsV3.pb.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PaymentDetailsV3.pb.cc; path = ../generatedcpp/PaymentDetailsV3.pb.cc; sourceTree = "<group>"; };
+		057AC8541F531EC9009FD0DE /* PaymentRequest.pb.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PaymentRequest.pb.cc; path = ../generatedcpp/PaymentRequest.pb.cc; sourceTree = "<group>"; };
+		057AC8551F531EC9009FD0DE /* PaymentRequestV3.pb.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PaymentRequestV3.pb.cc; path = ../generatedcpp/PaymentRequestV3.pb.cc; sourceTree = "<group>"; };
+		057AC8561F531EC9009FD0DE /* PaymentV3.pb.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PaymentV3.pb.cc; path = ../generatedcpp/PaymentV3.pb.cc; sourceTree = "<group>"; };
+		05E4853C1F53243500964779 /* example */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = example; sourceTree = BUILT_PRODUCTS_DIR; };
+		05E485431F53244E00964779 /* main.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cc; path = ../../main.cc; sourceTree = "<group>"; };
+		05E485471F53251E00964779 /* libprotobuf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libprotobuf.a; path = "../tools/protobuf-release/dest/lib/libprotobuf.a"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		057AC8391F531DC9009FD0DE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		05E485391F53243500964779 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				05E485481F53251E00964779 /* libprotobuf.a in Frameworks */,
+				05E485451F53247200964779 /* libapb-example.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		057AC8331F531DC9009FD0DE = {
+			isa = PBXGroup;
+			children = (
+				057AC84C1F531EA6009FD0DE /* generatedpb */,
+				057AC83E1F531DC9009FD0DE /* apb-example */,
+				05E4853D1F53243500964779 /* example */,
+				057AC83D1F531DC9009FD0DE /* Products */,
+				05E485461F53251E00964779 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		057AC83D1F531DC9009FD0DE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				057AC83C1F531DC9009FD0DE /* libapb-example.a */,
+				05E4853C1F53243500964779 /* example */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		057AC83E1F531DC9009FD0DE /* apb-example */ = {
+			isa = PBXGroup;
+			children = (
+				057AC8481F531E08009FD0DE /* pb_to_apb.cc */,
+				057AC8491F531E08009FD0DE /* apb_to_pb.cc */,
+			);
+			path = "apb-example";
+			sourceTree = "<group>";
+		};
+		057AC84C1F531EA6009FD0DE /* generatedpb */ = {
+			isa = PBXGroup;
+			children = (
+				057AC84D1F531EC9009FD0DE /* Output.pb.cc */,
+				057AC84E1F531EC9009FD0DE /* OutputV3.pb.cc */,
+				057AC84F1F531EC9009FD0DE /* Payment.pb.cc */,
+				057AC8501F531EC9009FD0DE /* PaymentAck.pb.cc */,
+				057AC8511F531EC9009FD0DE /* PaymentAckV3.pb.cc */,
+				057AC8521F531EC9009FD0DE /* PaymentDetails.pb.cc */,
+				057AC8531F531EC9009FD0DE /* PaymentDetailsV3.pb.cc */,
+				057AC8541F531EC9009FD0DE /* PaymentRequest.pb.cc */,
+				057AC8551F531EC9009FD0DE /* PaymentRequestV3.pb.cc */,
+				057AC8561F531EC9009FD0DE /* PaymentV3.pb.cc */,
+			);
+			name = generatedpb;
+			sourceTree = "<group>";
+		};
+		05E4853D1F53243500964779 /* example */ = {
+			isa = PBXGroup;
+			children = (
+				05E485431F53244E00964779 /* main.cc */,
+			);
+			path = example;
+			sourceTree = "<group>";
+		};
+		05E485461F53251E00964779 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				05E485471F53251E00964779 /* libprotobuf.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		057AC83A1F531DC9009FD0DE /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		057AC83B1F531DC9009FD0DE /* apb-example */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 057AC8451F531DC9009FD0DE /* Build configuration list for PBXNativeTarget "apb-example" */;
+			buildPhases = (
+				057AC8381F531DC9009FD0DE /* Sources */,
+				057AC8391F531DC9009FD0DE /* Frameworks */,
+				057AC83A1F531DC9009FD0DE /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "apb-example";
+			productName = "apb-example";
+			productReference = 057AC83C1F531DC9009FD0DE /* libapb-example.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		05E4853B1F53243500964779 /* example */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 05E485401F53243500964779 /* Build configuration list for PBXNativeTarget "example" */;
+			buildPhases = (
+				05E485381F53243500964779 /* Sources */,
+				05E485391F53243500964779 /* Frameworks */,
+				05E4853A1F53243500964779 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = example;
+			productName = example;
+			productReference = 05E4853C1F53243500964779 /* example */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		057AC8341F531DC9009FD0DE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = "Alex Malone";
+				TargetAttributes = {
+					057AC83B1F531DC9009FD0DE = {
+						CreatedOnToolsVersion = 8.3.3;
+						ProvisioningStyle = Automatic;
+					};
+					05E4853B1F53243500964779 = {
+						CreatedOnToolsVersion = 8.3.3;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 057AC8371F531DC9009FD0DE /* Build configuration list for PBXProject "apb-example" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 057AC8331F531DC9009FD0DE;
+			productRefGroup = 057AC83D1F531DC9009FD0DE /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				057AC83B1F531DC9009FD0DE /* apb-example */,
+				05E4853B1F53243500964779 /* example */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		057AC8381F531DC9009FD0DE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				057AC8581F531EC9009FD0DE /* OutputV3.pb.cc in Sources */,
+				057AC85B1F531EC9009FD0DE /* PaymentAckV3.pb.cc in Sources */,
+				057AC84B1F531E08009FD0DE /* apb_to_pb.cc in Sources */,
+				057AC85E1F531EC9009FD0DE /* PaymentRequest.pb.cc in Sources */,
+				057AC84A1F531E08009FD0DE /* pb_to_apb.cc in Sources */,
+				057AC85C1F531EC9009FD0DE /* PaymentDetails.pb.cc in Sources */,
+				057AC85A1F531EC9009FD0DE /* PaymentAck.pb.cc in Sources */,
+				057AC8571F531EC9009FD0DE /* Output.pb.cc in Sources */,
+				057AC85D1F531EC9009FD0DE /* PaymentDetailsV3.pb.cc in Sources */,
+				057AC8591F531EC9009FD0DE /* Payment.pb.cc in Sources */,
+				057AC8601F531EC9009FD0DE /* PaymentV3.pb.cc in Sources */,
+				057AC85F1F531EC9009FD0DE /* PaymentRequestV3.pb.cc in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		05E485381F53243500964779 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				05E485441F53244E00964779 /* main.cc in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		057AC8431F531DC9009FD0DE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		057AC8441F531DC9009FD0DE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		057AC8461F531DC9009FD0DE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				HEADER_SEARCH_PATHS = (
+					../..,
+					../generatedcpp,
+					"../tools/protobuf-release/dest/include",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		057AC8471F531DC9009FD0DE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				HEADER_SEARCH_PATHS = (
+					../..,
+					../generatedcpp,
+					"../tools/protobuf-release/dest/include",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		05E485411F53243500964779 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				HEADER_SEARCH_PATHS = (
+					"../tools/protobuf-release/dest/include",
+					../generatedcpp,
+					../..,
+				);
+				LIBRARY_SEARCH_PATHS = "../tools/protobuf-release/dest/lib";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		05E485421F53243500964779 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				HEADER_SEARCH_PATHS = (
+					"../tools/protobuf-release/dest/include",
+					../generatedcpp,
+					../..,
+				);
+				LIBRARY_SEARCH_PATHS = "../tools/protobuf-release/dest/lib";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		057AC8371F531DC9009FD0DE /* Build configuration list for PBXProject "apb-example" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				057AC8431F531DC9009FD0DE /* Debug */,
+				057AC8441F531DC9009FD0DE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		057AC8451F531DC9009FD0DE /* Build configuration list for PBXNativeTarget "apb-example" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				057AC8461F531DC9009FD0DE /* Debug */,
+				057AC8471F531DC9009FD0DE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		05E485401F53243500964779 /* Build configuration list for PBXNativeTarget "example" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				05E485411F53243500964779 /* Debug */,
+				05E485421F53243500964779 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 057AC8341F531DC9009FD0DE /* Project object */;
+}

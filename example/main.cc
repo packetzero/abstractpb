@@ -10,6 +10,8 @@ void doSomethingWithPaymentRequest()
 
   std::string dest;
   bool success = to_pb_v3(apb, dest);
+  
+  printf("PaymentRequest serialization %s length:%d\n", (success?"SUCCESS":"FAILED"), dest.length());
 
 }
 
