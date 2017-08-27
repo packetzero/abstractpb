@@ -1,5 +1,13 @@
 # AbstractPB : C++11 abstraction layer for Google Protobuffers
 
+## Example Generated Struct
+![usage code example](./doc/UsageGeneratedAbstractPB.png "Usage code example")
+
+## Example Usage
+![usage code example](doc/UsageExample.png "Usage code example")
+
+## Protobuf Definitions
+
 ## Goals
 
 ### 1. Simultaneous support for V2 and V3 protobufs without impacting application code
@@ -15,7 +23,7 @@ Rather than calling msg.set_timestamp(x), use msg.timeStamp = x .
 Be able to tell when Primitive type fields are set.  All primitive types are wrapped in objects for this reason.
 
 ### 5. Objective-C Helpers
-When using Objective-C on MacOS / OS X, the C++ libprotobuf can be awkward, and you need to explicitly convert to/from NSStrings.
+When using Objective-C on MacOS / OS X, the C++ libprotobuf can be awkward, and you need to explicitly convert to/from NSStrings or NSData.  While there is an (Objective-C implementation of libprotobuf)[https://github.com/google/protobuf/releases], the focus of this project is for cross-platform C++ applications.
 
 ## Guidelines
 

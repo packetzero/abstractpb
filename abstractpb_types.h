@@ -1,25 +1,28 @@
+/*
+ * All protobuf abstractions will only use types defined in this file.
+ */
 
 #ifndef _ABSTRACTPB_TYPES_H_
 #define _ABSTRACTPB_TYPES_H_
 
 #include <stdint.h>
+#include <assert.h>
 
 #include <string>
-#include <stdexcept>
 #include <vector>
 #include <map>
 #include <string.h> // memcpy
 
 #ifdef __APPLE__
 #include <Foundation/Foundation.h>
-
 #define STD_STRING(a) std::string([(a) UTF8String ])
-
 #define NSTR(a) [ NSString stringWithUTF8String: (a).c_str() ]
 #endif // APPLE
 
 namespace AbstractPB
 {
+  // Base class for all non-vector types.  Mainly provides an isSet() method.
+
   struct CObj {
     CObj(bool val = false) : _isSet(val) {}
     bool isSet() const { return _isSet; }
@@ -29,13 +32,15 @@ namespace AbstractPB
     bool _isSet;
   };
 
+  // CPrim is templatize class that wraps a primitive value
+
   template <typename T>
   struct CPrim : CObj {
     CPrim(T _val) : CObj(true), val(_val) {}
     CPrim() : CObj() {}
     operator T() const { return v(); }
     T v() const {
-      if (null()) throw(std::runtime_error("accessing value that hasn't been set"));
+      assert(isSet());
       return val;
     }
 
@@ -47,6 +52,9 @@ namespace AbstractPB
     void _set(const T& other) { val = other; _isSet = true; }
     T val;
   };
+
+  // String abstraction.
+  // TODO: Shouldn't really be using CPrim for std::string, since it's not a primitive
 
   struct CString : CPrim<std::string> {
     CString() : CPrim() { c = val.c_str();}
@@ -66,6 +74,8 @@ namespace AbstractPB
 
   };
 
+  // bytes abstraction
+
   struct CBytes : CPrim< std::vector<uint8_t> > {
     CBytes() : CPrim() {}
     CBytes(const std::string str) : CPrim() {
@@ -82,6 +92,8 @@ namespace AbstractPB
     const uint8_t *ptr() { return val.data(); }
   };
 
+  // primitive type wrappers
+
   using CUInt8 = CPrim<uint8_t>;
   using CInt8 = CPrim<int8_t>;
   using CUInt16 = CPrim<uint16_t>;
@@ -93,6 +105,8 @@ namespace AbstractPB
   using CBool = CPrim<bool>;
   using CDouble = CPrim<double>;
   using CFloat = CPrim<float>;
+
+  // vectors
 
   using V_String = std::vector<CString> ;
   using V_Int64  = std::vector<int64_t> ;
@@ -109,7 +123,6 @@ namespace AbstractPB
   using V_Bytes  = std::vector<CBytes> ;
 
   #define VEC std::vector
-
 }
 
 #endif // _AbstractPB_TYPES_H_

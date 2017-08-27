@@ -17,9 +17,11 @@
 		057AC85E1F531EC9009FD0DE /* PaymentRequest.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 057AC8541F531EC9009FD0DE /* PaymentRequest.pb.cc */; };
 		057AC85F1F531EC9009FD0DE /* PaymentRequestV3.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 057AC8551F531EC9009FD0DE /* PaymentRequestV3.pb.cc */; };
 		057AC8601F531EC9009FD0DE /* PaymentV3.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 057AC8561F531EC9009FD0DE /* PaymentV3.pb.cc */; };
+		05AEE9401F538E3900565765 /* main.cc in Sources */ = {isa = PBXBuildFile; fileRef = 05E025161F5366F800F57A76 /* main.cc */; };
 		05E025171F5366F800F57A76 /* main.cc in Sources */ = {isa = PBXBuildFile; fileRef = 05E025161F5366F800F57A76 /* main.cc */; };
 		05E0251B1F53671400F57A76 /* apb_from_pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 05E025191F53671400F57A76 /* apb_from_pb.cc */; };
 		05E0251C1F53671400F57A76 /* apb_to_pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 05E0251A1F53671400F57A76 /* apb_to_pb.cc */; };
+		05E0251E1F538D4F00F57A76 /* abstractpb_types.h in Headers */ = {isa = PBXBuildFile; fileRef = 05E0251D1F538D4F00F57A76 /* abstractpb_types.h */; };
 		05E485451F53247200964779 /* libapb-example.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 057AC83C1F531DC9009FD0DE /* libapb-example.a */; };
 		05E485481F53251E00964779 /* libprotobuf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 05E485471F53251E00964779 /* libprotobuf.a */; };
 /* End PBXBuildFile section */
@@ -51,6 +53,7 @@
 		05E025161F5366F800F57A76 /* main.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cc; path = ../main.cc; sourceTree = "<group>"; };
 		05E025191F53671400F57A76 /* apb_from_pb.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = apb_from_pb.cc; path = ../apb/apb_from_pb.cc; sourceTree = "<group>"; };
 		05E0251A1F53671400F57A76 /* apb_to_pb.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = apb_to_pb.cc; path = ../apb/apb_to_pb.cc; sourceTree = "<group>"; };
+		05E0251D1F538D4F00F57A76 /* abstractpb_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = abstractpb_types.h; path = ../../abstractpb_types.h; sourceTree = "<group>"; };
 		05E4853C1F53243500964779 /* example */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = example; sourceTree = BUILT_PRODUCTS_DIR; };
 		05E485471F53251E00964779 /* libprotobuf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libprotobuf.a; path = "../tools/protobuf-release/dest/lib/libprotobuf.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -78,6 +81,7 @@
 		057AC8331F531DC9009FD0DE = {
 			isa = PBXGroup;
 			children = (
+				05E0251D1F538D4F00F57A76 /* abstractpb_types.h */,
 				05E025181F5366FD00F57A76 /* apb */,
 				05E025161F5366F800F57A76 /* main.cc */,
 				057AC84C1F531EA6009FD0DE /* generatedpb */,
@@ -136,6 +140,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				05E0251E1F538D4F00F57A76 /* abstractpb_types.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -238,6 +243,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				05AEE9401F538E3900565765 /* main.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

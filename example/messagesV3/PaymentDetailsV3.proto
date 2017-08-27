@@ -11,4 +11,7 @@ message PaymentDetails {
     string          memo          = 5;
     string          payment_url   = 6;
     bytes           merchant_data = 7;
+
+    string          someNewField  = 9;
+    int32           someNewInt    = 10;
 }
