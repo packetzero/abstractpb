@@ -100,6 +100,7 @@ namespace AbstractPB
   using V_Bool   = std::vector<bool>  ;
   using V_Double = std::vector<double>  ;
   using V_Float  = std::vector<float>  ;
+  using V_Bytes  = std::vector<CBytes> ;
 
   #define VEC std::vector
 

@@ -1,0 +1,6 @@
+import "Payment.proto";
+
+message PaymentAck {
+        required Payment payment = 1;
+        optional string memo = 2;
+}

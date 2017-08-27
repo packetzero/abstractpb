@@ -5,7 +5,31 @@
 # via STDIN and expect an encoded CodeGeneratorResponse on STDOUT
 
 module Protobuf
+
+  class FieldSummary
+    property name : String
+    property absType : String
+    property isRepeated : Bool
+    property isPrimitive : Bool
+
+    def initialize(@name, @absType, @isRepeated, @isPrimitive)
+    end
+  end
+
+  class MsgSummary
+    property name : String
+    property syntax = "2" #: String
+    property fields = [] of FieldSummary
+
+    def initialize(@name)
+    end
+  end
+
   class Generator
+    @@funcSigs=[] of String
+    @@sbToPb = String::Builder.new
+    @@sbToPbH = String::Builder.new
+
     def self.compile(req)
       raise Error.new("no files to generate") if req.proto_file.nil?
       package_map = {} of String => String
@@ -14,6 +38,11 @@ module Protobuf
           package_map[file.package.not_nil!] = file.crystal_ns.join("::")
         end
       end
+
+      @@sbToPb.puts "\#include \"apb_to_pb.h\""
+
+      # TODO: if both V2 and V3 for a message, only output apb.h for V3
+
       files = req.proto_file.not_nil!.map do |file|
         generator = new(file, package_map)
         CodeGeneratorResponse::File.new(
@@ -21,17 +50,91 @@ module Protobuf
           content: generator.compile
         )
       end
+
+      files.push CodeGeneratorResponse::File.new(
+        name: File.basename("apb_to_pb.h"),
+        content: @@sbToPbH.to_s
+      )
+
+      files.push CodeGeneratorResponse::File.new(
+        name: File.basename("apb_to_pb.cc"),
+        content: @@sbToPb.to_s
+      )
+
       CodeGeneratorResponse.new(file: files)
+    end
+
+    def gen_to_pb(msg : MsgSummary)
+        ver = msg.syntax.gsub(/[a-zA-Z]*/,"")
+        pbname=msg.name
+        pbname="#{package_name.not_nil!.gsub(".","::")}::#{msg.name}" if package_name
+
+        topbh_puts "\#include \"#{msg.name}.apb.h\""
+
+        topb_puts "\#include <#{msg.name}#{ver == "3" ? "V3" : ""}.pb.h>"
+        topb_puts ""
+        topb_puts "void apb_init_pb_v#{ver}(C#{msg.name} &apb, #{pbname} &pb)"
+        topb_puts "{"
+        indent do
+          msg.fields.each do |f|
+            cfield = f.name.downcase
+            if f.isRepeated
+              topb_puts "for (auto it = apb.#{f.name}.begin(); it != apb.#{f.name}.end(); it++)"
+              if (f.isPrimitive)
+                if f.absType == "V_Bytes"
+                  topb_puts "   pb.add_#{cfield}(it->ptr(), it->size());  // #{f.absType}"
+                else
+                  topb_puts "   pb.add_#{cfield}(*it);  // #{f.absType}"
+                end
+              else
+                topb_puts "   apb_init_pb_v#{ver}(*it, *pb.add_#{cfield}());"
+              end
+            else
+              if (f.isPrimitive)
+                if (f.absType == "CBytes")
+                  topb_puts "if (apb.#{f.name}.isSet()) pb.set_#{cfield}(apb.#{f.name}.ptr(), apb.#{f.name}.size());"
+                else
+                  topb_puts "if (apb.#{f.name}.isSet()) pb.set_#{cfield}(apb.#{f.name});"
+                end
+              else
+                topb_puts "if (0L != apb.#{f.name}) apb_init_pb_v#{ver}(*apb.#{f.name}, *pb.mutable_#{cfield}());"
+              end
+            end
+            topb_puts ""
+          end
+        end
+        topb_puts "}"
+
+        topb_puts ""
+        funcSig = "bool to_pb_v#{ver}(C#{msg.name} &apb, std::string &dest)"
+        @@funcSigs.push funcSig
+        topbh_puts "#{funcSig};"
+        topb_puts funcSig
+        topb_puts "{"
+        indent do
+          topb_puts "#{pbname} pb;"
+          topb_puts ""
+          topb_puts "apb_init_pb_v#{ver}(apb, pb);"
+          topb_puts ""
+          if (msg.syntax == "proto2")
+            topb_puts "if (!pb.isInitialized()) return false;"
+            topb_puts ""
+          end
+          topb_puts "return pb.SerializeToString(&dest);"
+        end
+        topb_puts "}"
     end
 
     @package_name : String?
     @ns : Array(String)
+    @messages : Array(MsgSummary)
 
     def initialize(@file : CodeGeneratorRequest::FileDescriptorProto, @package_map : Hash(String, String))
       @ns = ENV.fetch("PROTOBUF_NS", "").split("::").reject(&.empty?).concat(@file.crystal_ns)
       @str = String::Builder.new
       @indentation = 0
       @cleanup_fields = [] of String
+      @messages = [] of MsgSummary
     end
 
     def compile
@@ -54,6 +157,7 @@ module Protobuf
             @file.message_type.not_nil!.each { |mt| message!(mt) }
           end
         end
+
       end
     end
 
@@ -91,6 +195,8 @@ module Protobuf
       # guard against recursive structs
       #structure = !message_type.field.nil? && message_type.field.not_nil!.any? { |f| f.type_name && f.type_name.not_nil!.split(".").last == message_type.name } ? "class" : "struct"
 
+      @msg = MsgSummary.new message_type.name.not_nil!
+
       #puts "#{structure} #{message_type.name}"
       puts "struct C#{message_type.name} final : CObj "
       puts "{"
@@ -110,11 +216,12 @@ module Protobuf
 #        puts "// properties"
 #        puts ""
         message_type.nested_type.not_nil!.each { |mt| message!(mt) } unless message_type.nested_type.nil?
-        puts ""
+#        puts ""
 
         # use contract3() macro for proto3, otherwise use contract() macro
 
         syntax = @file.syntax.nil? ? "proto2" : @file.syntax
+        @msg.not_nil!.syntax = syntax.not_nil!
 
         #puts "contract_of \"#{syntax}\" do"
 #        indent do
@@ -140,6 +247,8 @@ module Protobuf
       puts  "};"
       puts "\#endif // _ABS_C#{message_type.name}_H_"
 
+      gen_to_pb @msg.not_nil!
+#      @messages.push @msg.not_nil!
     end
 
     def get_ctype (std_name, is_repeated)
@@ -184,6 +293,7 @@ module Protobuf
       ##puts "// field type:'#{field.type.to_s} type_name:'#{field.type_name}'"
       # TODO: nested types should be pointers
 
+      isSubType = false
       type_name = unless field.type_name.nil?
         t = field.type_name.not_nil!
         t = t.gsub(/^\.{0,}#{package_name.not_nil!}\.*/, "") unless package_name.nil?
@@ -200,10 +310,12 @@ module Protobuf
         s = "C#{s}" unless  field.type == CodeGeneratorRequest::FieldDescriptorProto::Type::TYPE_ENUM
 
         if met == "repeated"
+          isSubType = true
           "VEC< #{s} >"
         else
           unless field.type == CodeGeneratorRequest::FieldDescriptorProto::Type::TYPE_ENUM
             # mark this field for cleanup in destructor
+            isSubType = true
             @cleanup_fields.push  field.name.not_nil!
             "#{s}*"
           else
@@ -221,6 +333,8 @@ module Protobuf
       # CString           fieldName
       columnPadding = 24 # - cTypeName.size
       puts "#{cTypeName.not_nil!.ljust(columnPadding)} #{field.name.not_nil!};"
+      @msg.not_nil!.fields.push FieldSummary.new(field.name.not_nil!, cTypeName.not_nil!,
+        met == "repeated", !isSubType)
 
       field_desc = "#{met} :#{field.name.not_nil!.underscore}, #{type_name}, #{field.number}"
       unless field.default_value.nil?
@@ -280,6 +394,14 @@ module Protobuf
 
     def puts(text)
       @str.puts "#{"  " * @indentation}#{text}"
+    end
+    # this is for the to_pb() output, which goes to a separate string builder
+    def topb_puts(text)
+      @@sbToPb.puts "#{"  " * @indentation}#{text}"
+    end
+    # this is for the to_pb() output, which goes to a separate string builder
+    def topbh_puts(text)
+      @@sbToPbH.puts "#{"  " * @indentation}#{text}"
     end
   end
 end

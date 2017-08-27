@@ -1,5 +1,14 @@
 /test/tests-*
-/test/gtest/lib
-/test/gtest/include
-/test/gtest/release
+/test/gtest
+
+/protoc-plugin/doc/
+/protoc-plugin/lib/
+/protoc-plugin/.crystal/
+/protoc-plugin/.shards/
+/protoc-plugin/bin/*
+/protoc-plugin/temp
+/protoc-plugin/shard.lock
+
+/example/tools
+/example/example
 

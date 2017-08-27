@@ -21,3 +21,6 @@ When using Objective-C on MacOS / OS X, the C++ libprotobuf can be awkward, and 
 
 ### 1. V3 messages extend V2 messages
 In order for an abstraction struct to be used for both v2 an v3 messages, the V3 message definition must only add fields, not remove any fields you deprecate.  All fields are optional in V3.
+
+### 2. Message name same, but different package
+Keep the message name the same, but place them in a different package.
