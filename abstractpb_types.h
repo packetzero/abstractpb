@@ -67,6 +67,12 @@ namespace AbstractPB
   };
 
   struct CBytes : CPrim< std::vector<uint8_t> > {
+    CBytes() : CPrim() {}
+    CBytes(const std::string str) : CPrim() {
+      _isSet = true;
+      val.resize(str.length());
+      if (str.length() > 0) memcpy(val.data(),str.c_str(), str.length());
+    }
     void operator= (const std::string& str) {
       _isSet = true;
       val.resize(str.length());

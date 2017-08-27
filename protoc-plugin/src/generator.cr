@@ -29,6 +29,8 @@ module Protobuf
     @@funcSigs=[] of String
     @@sbToPb = String::Builder.new
     @@sbToPbH = String::Builder.new
+    @@sbFromPb = String::Builder.new
+    @@sbFromPbH = String::Builder.new
 
     def self.compile(req)
       raise Error.new("no files to generate") if req.proto_file.nil?
@@ -40,6 +42,7 @@ module Protobuf
       end
 
       @@sbToPb.puts "\#include \"apb_to_pb.h\""
+      @@sbFromPb.puts "\#include \"apb_from_pb.h\""
 
       # TODO: if both V2 and V3 for a message, only output apb.h for V3
 
@@ -59,6 +62,16 @@ module Protobuf
       files.push CodeGeneratorResponse::File.new(
         name: File.basename("apb_to_pb.cc"),
         content: @@sbToPb.to_s
+      )
+
+      files.push CodeGeneratorResponse::File.new(
+        name: File.basename("apb_from_pb.h"),
+        content: @@sbFromPbH.to_s
+      )
+
+      files.push CodeGeneratorResponse::File.new(
+        name: File.basename("apb_from_pb.cc"),
+        content: @@sbFromPb.to_s
       )
 
       CodeGeneratorResponse.new(file: files)
@@ -123,6 +136,82 @@ module Protobuf
           topb_puts "return pb.SerializeToString(&dest);"
         end
         topb_puts "}"
+    end
+
+    def gen_from_pb(msg : MsgSummary)
+        ver = msg.syntax.gsub(/[a-zA-Z]*/,"")
+        pbname=msg.name
+        pbname="#{package_name.not_nil!.gsub(".","::")}::#{msg.name}" if package_name
+
+        frompbh_puts "\#include \"#{msg.name}.apb.h\""
+
+        frompb_puts "\#include <#{msg.name}#{ver == "3" ? "V3" : ""}.pb.h>"
+        frompb_puts ""
+        frompb_puts "static void _init_from_pb_v3(const #{pbname} &pb, C#{msg.name} &dest)"
+        frompb_puts "{"
+        indent do
+          msg.fields.each do |f|
+            cfield = f.name.downcase
+
+            frompb_puts "if (pb.has_#{cfield}())" if msg.syntax == "proto2"
+
+            if f.isRepeated
+              frompb_puts "for (auto it = pb.#{f.name}().begin(); it != pb.#{f.name}().end(); it++)"
+              if (f.isPrimitive)
+                if f.absType == "V_Bytes"
+                  frompb_puts "   dest.#{f.name}.push_back( *it);  // #{f.absType}"
+                else
+                  frompb_puts "   dest.#{f.name}.push_back( *it);  // #{f.absType}"
+                end
+              else
+                frompb_puts "{"
+                frompb_puts "   int idx = dest.#{f.name}.size();"
+                frompb_puts "   dest.#{f.name}.resize(idx + 1);"
+                frompb_puts "   _init_from_pb_v3(*it, dest.#{f.name}[idx]);"
+                #frompb_puts "   auto tmp = #{f.absType}();"
+                #frompb_puts "   _init_from_pb_v3(*it, tmp);"
+                #frompb_puts "   dest.#{f.name}.push_back( tmp);  // #{f.absType}"
+                frompb_puts "}"
+              end
+            else
+              if (f.isPrimitive)
+
+                frompb_puts "dest.#{f.name} = pb.#{cfield}();"
+                #if (f.absType == "CBytes")
+                #  frompb_puts "if (apb.#{f.name}.isSet()) pb.set_#{cfield}(apb.#{f.name}.ptr(), apb.#{f.name}.size());"
+                #else
+                #  frompb_puts "if (apb.#{f.name}.isSet()) pb.set_#{cfield}(apb.#{f.name});"
+                #end
+              else
+                frompb_puts "{"
+                indent do
+                  frompb_puts "dest.#{f.name} = new #{f.absType.gsub("*","")}();"
+                  frompb_puts "_init_from_pb_v3(pb.#{cfield}(), *dest.#{f.name});"
+                end
+                frompb_puts "}"
+              end
+            end
+            frompb_puts ""
+          end
+        end
+        frompb_puts "}"
+
+        frompb_puts ""
+        funcSig = "bool from_pb_v#{ver}(CBytes &src, C#{msg.name} &dest)"
+        #@@funcSigs.push funcSig
+        frompbh_puts "#{funcSig};"
+        frompb_puts funcSig
+        frompb_puts "{"
+        indent do
+          frompb_puts "#{pbname} pb = #{pbname}();"
+          frompb_puts ""
+          frompb_puts "if (false == pb.ParseFromArray(src.ptr(), src.size())) return false;"
+          frompb_puts ""
+          frompb_puts "_init_from_pb_v3(pb, dest);"
+          frompb_puts ""
+          frompb_puts "return true;"
+        end
+        frompb_puts "}"
     end
 
     @package_name : String?
@@ -248,6 +337,7 @@ module Protobuf
       puts "\#endif // _ABS_C#{message_type.name}_H_"
 
       gen_to_pb @msg.not_nil!
+      gen_from_pb @msg.not_nil!
 #      @messages.push @msg.not_nil!
     end
 
@@ -402,6 +492,14 @@ module Protobuf
     # this is for the to_pb() output, which goes to a separate string builder
     def topbh_puts(text)
       @@sbToPbH.puts "#{"  " * @indentation}#{text}"
+    end
+    # this is for the to_pb() output, which goes to a separate string builder
+    def frompb_puts(text)
+      @@sbFromPb.puts "#{"  " * @indentation}#{text}"
+    end
+    # this is for the to_pb() output, which goes to a separate string builder
+    def frompbh_puts(text)
+      @@sbFromPbH.puts "#{"  " * @indentation}#{text}"
     end
   end
 end
