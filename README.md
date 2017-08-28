@@ -2,10 +2,13 @@
 
 ## Example Generated Struct
 Using a protoc plugin provided by this project, a simple C++ struct will be generated for each message.  Here is one generated for PaymentDetails.proto [Version 2](example/messagesV2/PaymentDetails.proto) and
-[Version 3](example/messagesV3/PaymentDetailsV3.proto) message definitions.
+[Version 3](example/messagesV3/PaymentDetailsV3.proto) message definitions.  Your application code never deals directly with C++ generated classes.
+
 ![struct example](./doc/ExampleGeneratedAbstractPB.png "struct example")
 
 ## Example Usage
+An application uses the AbstractPB generated structs and the `apb_to_pb()` and `apb_from_pb()` functions only.  The rest of the protobuf C++ API is abstracted away to allow seamless V2 and V3 protobuf support and cleaner code.
+
 ![usage code example](doc/ExampleUsage.png "Usage code example")
 
 ## Goals
