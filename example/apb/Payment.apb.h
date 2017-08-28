@@ -7,11 +7,9 @@ using namespace AbstractPB;
 
 struct CPayment final : CObj 
 {
-  
   CBytes                   merchant_data;
   V_Bytes                  transactions;
   VEC< COutput >           refund_to;
   CString                  memo;
-  
 };
 #endif // _ABS_CPayment_H_

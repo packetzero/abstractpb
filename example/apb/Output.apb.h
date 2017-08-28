@@ -7,9 +7,7 @@ using namespace AbstractPB;
 
 struct COutput final : CObj 
 {
-  
   CUInt64                  amount;
   CBytes                   script;
-  
 };
 #endif // _ABS_COutput_H_

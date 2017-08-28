@@ -7,12 +7,10 @@ using namespace AbstractPB;
 
 struct CPaymentRequest final : CObj 
 {
-  
   CUInt32                  payment_details_version;
   CString                  pki_type;
   CBytes                   pki_data;
   CBytes                   serialized_payment_details;
   CBytes                   signature;
-  
 };
 #endif // _ABS_CPaymentRequest_H_

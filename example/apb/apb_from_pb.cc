@@ -97,6 +97,10 @@ static void _init_from_pb_v3(const com::bitcoin::proto3::PaymentDetails &pb, CPa
   
   dest.merchant_data = pb.merchant_data();
   
+  dest.someNewField = pb.somenewfield();
+  
+  dest.someNewInt = pb.somenewint();
+  
 }
 
 bool from_pb_v3(CBytes &src, CPaymentDetails &dest)

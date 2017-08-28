@@ -80,6 +80,10 @@ void apb_init_pb_v3(CPaymentDetails &apb, com::bitcoin::proto3::PaymentDetails &
   
   if (apb.merchant_data.isSet()) pb.set_merchant_data(apb.merchant_data.ptr(), apb.merchant_data.size());
   
+  if (apb.someNewField.isSet()) pb.set_somenewfield(apb.someNewField);
+  
+  if (apb.someNewInt.isSet()) pb.set_somenewint(apb.someNewInt);
+  
 }
 
 bool to_pb_v3(CPaymentDetails &apb, std::string &dest)

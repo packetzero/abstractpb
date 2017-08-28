@@ -7,7 +7,6 @@ using namespace AbstractPB;
 
 struct CPaymentAck final : CObj 
 {
-  
   CPayment*                payment;
   CString                  memo;
   CUInt64                  responseTime;

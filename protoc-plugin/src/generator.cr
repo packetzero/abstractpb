@@ -32,8 +32,15 @@ module Protobuf
     @@sbFromPb = String::Builder.new
     @@sbFromPbH = String::Builder.new
 
+    # by default APB structs are prefixed with "C". override with ENV variable PROTOBUF_APBNAMING
+    @@fmtAPBName="C%%"
+
     def self.compile(req)
       raise Error.new("no files to generate") if req.proto_file.nil?
+
+      tmp=ENV.fetch("PROTOBUF_APBNAMING", "")
+      @@fmtAPBName = tmp if tmp.size > 0
+
       package_map = {} of String => String
       req.proto_file.not_nil!.each do |file|
         if !file.package.nil?
@@ -77,6 +84,10 @@ module Protobuf
       CodeGeneratorResponse.new(file: files)
     end
 
+    def apb_name(msg_name)
+      @@fmtAPBName.gsub("%%", msg_name)
+    end
+
     def gen_to_pb(msg : MsgSummary)
         ver = msg.syntax.gsub(/[a-zA-Z]*/,"")
         pbname=msg.name
@@ -86,7 +97,7 @@ module Protobuf
 
         topb_puts "\#include <#{msg.name}#{ver == "3" ? "V3" : ""}.pb.h>"
         topb_puts ""
-        topb_puts "void apb_init_pb_v#{ver}(C#{msg.name} &apb, #{pbname} &pb)"
+        topb_puts "void apb_init_pb_v#{ver}(#{apb_name(msg.name)} &apb, #{pbname} &pb)"
         topb_puts "{"
         indent do
           msg.fields.each do |f|
@@ -119,7 +130,7 @@ module Protobuf
         topb_puts "}"
 
         topb_puts ""
-        funcSig = "bool to_pb_v#{ver}(C#{msg.name} &apb, std::string &dest)"
+        funcSig = "bool to_pb_v#{ver}(#{apb_name(msg.name)} &apb, std::string &dest)"
         @@funcSigs.push funcSig
         topbh_puts "#{funcSig};"
         topb_puts funcSig
@@ -147,7 +158,7 @@ module Protobuf
 
         frompb_puts "\#include <#{msg.name}#{ver == "3" ? "V3" : ""}.pb.h>"
         frompb_puts ""
-        frompb_puts "static void _init_from_pb_v3(const #{pbname} &pb, C#{msg.name} &dest)"
+        frompb_puts "static void _init_from_pb_v3(const #{pbname} &pb, #{apb_name(msg.name)} &dest)"
         frompb_puts "{"
         indent do
           msg.fields.each do |f|
@@ -197,7 +208,7 @@ module Protobuf
         frompb_puts "}"
 
         frompb_puts ""
-        funcSig = "bool from_pb_v#{ver}(CBytes &src, C#{msg.name} &dest)"
+        funcSig = "bool from_pb_v#{ver}(CBytes &src, #{apb_name(msg.name)} &dest)"
         #@@funcSigs.push funcSig
         frompbh_puts "#{funcSig};"
         frompb_puts funcSig
@@ -287,25 +298,27 @@ module Protobuf
       @msg = MsgSummary.new message_type.name.not_nil!
 
       #puts "#{structure} #{message_type.name}"
-      puts "struct C#{message_type.name} final : CObj "
+      puts "struct #{apb_name(message_type.name)} final : CObj "
       puts "{"
 
       indent do
-        puts nil
+#        puts nil
 
         #puts "include Protobuf::Message"
 
         unless message_type.enum_type.nil?
 #          puts "// enums"
-          puts ""
+#          puts ""
           message_type.enum_type.not_nil!.each { |et| enum!(et, message_type.name) }
           puts nil
         end
 
 #        puts "// properties"
 #        puts ""
-        message_type.nested_type.not_nil!.each { |mt| message!(mt) } unless message_type.nested_type.nil?
-#        puts ""
+        unless message_type.nested_type.nil?
+          message_type.nested_type.not_nil!.each { |mt| message!(mt) }
+          puts ""
+        end
 
         # use contract3() macro for proto3, otherwise use contract() macro
 
@@ -318,12 +331,13 @@ module Protobuf
 #        end
         #puts "end"
 
-        puts ""
+#        puts ""
 #        puts "// methods "
 #        puts ""
 #        puts "DEF_to_pb;"
         unless @cleanup_fields.empty?
-          puts "~C#{message_type.name}() {"
+          puts nil
+          puts "~#{apb_name(message_type.name)}() {"
           indent do
             @cleanup_fields.each {|fieldName|
               puts "if (0L != #{fieldName}) delete #{fieldName};"
@@ -397,7 +411,7 @@ module Protobuf
         s = s.gsub(message_type.name.not_nil!,"") if s.starts_with?(message_type.name.not_nil!)
 
         # remember class name prefix
-        s = "C#{s}" unless  field.type == CodeGeneratorRequest::FieldDescriptorProto::Type::TYPE_ENUM
+        s = "#{apb_name(s)}" unless  field.type == CodeGeneratorRequest::FieldDescriptorProto::Type::TYPE_ENUM
 
         if met == "repeated"
           isSubType = true

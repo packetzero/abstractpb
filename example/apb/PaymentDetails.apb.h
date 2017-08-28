@@ -7,7 +7,6 @@ using namespace AbstractPB;
 
 struct CPaymentDetails final : CObj 
 {
-  
   CString                  network;
   VEC< COutput >           outputs;
   CUInt64                  time;
@@ -15,6 +14,7 @@ struct CPaymentDetails final : CObj
   CString                  memo;
   CString                  payment_url;
   CBytes                   merchant_data;
-  
+  CString                  someNewField;
+  CInt32                   someNewInt;
 };
 #endif // _ABS_CPaymentDetails_H_
