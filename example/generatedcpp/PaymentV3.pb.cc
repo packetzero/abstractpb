@@ -29,6 +29,7 @@ namespace protobuf_PaymentV3_2eproto {
 namespace {
 
 ::google::protobuf::Metadata file_level_metadata[1];
+const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[1];
 
 }  // namespace
 
@@ -56,6 +57,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] = {
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Payment, transactions_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Payment, refund_to_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Payment, memo_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Payment, tod_),
 };
 
 static const ::google::protobuf::internal::MigrationSchema schemas[] = {
@@ -73,7 +75,7 @@ void protobuf_AssignDescriptors() {
   ::google::protobuf::MessageFactory* factory = NULL;
   AssignDescriptors(
       "PaymentV3.proto", schemas, file_default_instances, TableStruct::offsets, factory,
-      file_level_metadata, NULL, NULL);
+      file_level_metadata, file_level_enum_descriptors, NULL);
 }
 
 void protobuf_AssignDescriptorsOnce() {
@@ -110,13 +112,15 @@ void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] = {
       "\n\017PaymentV3.proto\022\022com.bitcoin.proto3\032\016O"
-      "utputV3.proto\"s\n\007Payment\022\025\n\rmerchant_dat"
-      "a\030\001 \001(\014\022\024\n\014transactions\030\002 \003(\014\022-\n\trefund_"
-      "to\030\003 \003(\0132\032.com.bitcoin.proto3.Output\022\014\n\004"
-      "memo\030\004 \001(\tb\006proto3"
+      "utputV3.proto\"\237\001\n\007Payment\022\025\n\rmerchant_da"
+      "ta\030\001 \001(\014\022\024\n\014transactions\030\002 \003(\014\022-\n\trefund"
+      "_to\030\003 \003(\0132\032.com.bitcoin.proto3.Output\022\014\n"
+      "\004memo\030\004 \001(\t\022*\n\003tod\030\006 \001(\0162\035.com.bitcoin.p"
+      "roto3.TimeOfDay*-\n\tTimeOfDay\022\020\n\014NotSpeci"
+      "fied\020\000\022\006\n\002AM\020\001\022\006\n\002PM\020\002b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 178);
+      descriptor, 270);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "PaymentV3.proto", &protobuf_RegisterTypes);
   ::com::bitcoin::proto3::protobuf_OutputV3_2eproto::AddDescriptors();
@@ -136,6 +140,21 @@ struct StaticDescriptorInitializer {
 
 }  // namespace protobuf_PaymentV3_2eproto
 
+const ::google::protobuf::EnumDescriptor* TimeOfDay_descriptor() {
+  protobuf_PaymentV3_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_PaymentV3_2eproto::file_level_enum_descriptors[0];
+}
+bool TimeOfDay_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+      return true;
+    default:
+      return false;
+  }
+}
+
 
 // ===================================================================
 
@@ -144,6 +163,7 @@ const int Payment::kMerchantDataFieldNumber;
 const int Payment::kTransactionsFieldNumber;
 const int Payment::kRefundToFieldNumber;
 const int Payment::kMemoFieldNumber;
+const int Payment::kTodFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Payment::Payment()
@@ -169,12 +189,14 @@ Payment::Payment(const Payment& from)
   if (from.memo().size() > 0) {
     memo_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.memo_);
   }
+  tod_ = from.tod_;
   // @@protoc_insertion_point(copy_constructor:com.bitcoin.proto3.Payment)
 }
 
 void Payment::SharedCtor() {
   merchant_data_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   memo_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  tod_ = 0;
   _cached_size_ = 0;
 }
 
@@ -217,6 +239,7 @@ void Payment::Clear() {
   refund_to_.Clear();
   merchant_data_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   memo_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  tod_ = 0;
 }
 
 bool Payment::MergePartialFromCodedStream(
@@ -281,6 +304,21 @@ bool Payment::MergePartialFromCodedStream(
         break;
       }
 
+      // .com.bitcoin.proto3.TimeOfDay tod = 6;
+      case 6: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(48u)) {
+          int value;
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
+                 input, &value)));
+          set_tod(static_cast< ::com::bitcoin::proto3::TimeOfDay >(value));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0 ||
@@ -336,6 +374,12 @@ void Payment::SerializeWithCachedSizes(
       4, this->memo(), output);
   }
 
+  // .com.bitcoin.proto3.TimeOfDay tod = 6;
+  if (this->tod() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+      6, this->tod(), output);
+  }
+
   // @@protoc_insertion_point(serialize_end:com.bitcoin.proto3.Payment)
 }
 
@@ -374,6 +418,12 @@ void Payment::SerializeWithCachedSizes(
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         4, this->memo(), target);
+  }
+
+  // .com.bitcoin.proto3.TimeOfDay tod = 6;
+  if (this->tod() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
+      6, this->tod(), target);
   }
 
   // @@protoc_insertion_point(serialize_to_array_end:com.bitcoin.proto3.Payment)
@@ -417,6 +467,12 @@ size_t Payment::ByteSizeLong() const {
         this->memo());
   }
 
+  // .com.bitcoin.proto3.TimeOfDay tod = 6;
+  if (this->tod() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->tod());
+  }
+
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = cached_size;
@@ -456,6 +512,9 @@ void Payment::MergeFrom(const Payment& from) {
 
     memo_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.memo_);
   }
+  if (from.tod() != 0) {
+    set_tod(from.tod());
+  }
 }
 
 void Payment::CopyFrom(const ::google::protobuf::Message& from) {
@@ -485,6 +544,7 @@ void Payment::InternalSwap(Payment* other) {
   refund_to_.InternalSwap(&other->refund_to_);
   merchant_data_.Swap(&other->merchant_data_);
   memo_.Swap(&other->memo_);
+  std::swap(tod_, other->tod_);
   std::swap(_cached_size_, other->_cached_size_);
 }
 
@@ -699,6 +759,20 @@ void Payment::set_allocated_memo(::std::string* memo) {
   }
   memo_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), memo);
   // @@protoc_insertion_point(field_set_allocated:com.bitcoin.proto3.Payment.memo)
+}
+
+// .com.bitcoin.proto3.TimeOfDay tod = 6;
+void Payment::clear_tod() {
+  tod_ = 0;
+}
+::com::bitcoin::proto3::TimeOfDay Payment::tod() const {
+  // @@protoc_insertion_point(field_get:com.bitcoin.proto3.Payment.tod)
+  return static_cast< ::com::bitcoin::proto3::TimeOfDay >(tod_);
+}
+void Payment::set_tod(::com::bitcoin::proto3::TimeOfDay value) {
+  
+  tod_ = value;
+  // @@protoc_insertion_point(field_set:com.bitcoin.proto3.Payment.tod)
 }
 
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS

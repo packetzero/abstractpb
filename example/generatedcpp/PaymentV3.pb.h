@@ -28,6 +28,7 @@
 #include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
+#include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
 #include "OutputV3.pb.h"
 // @@protoc_insertion_point(includes)
@@ -62,6 +63,28 @@ void AddDescriptors();
 void InitDefaults();
 }  // namespace protobuf_PaymentV3_2eproto
 
+enum TimeOfDay {
+  NotSpecified = 0,
+  AM = 1,
+  PM = 2,
+  TimeOfDay_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  TimeOfDay_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool TimeOfDay_IsValid(int value);
+const TimeOfDay TimeOfDay_MIN = NotSpecified;
+const TimeOfDay TimeOfDay_MAX = PM;
+const int TimeOfDay_ARRAYSIZE = TimeOfDay_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* TimeOfDay_descriptor();
+inline const ::std::string& TimeOfDay_Name(TimeOfDay value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    TimeOfDay_descriptor(), value);
+}
+inline bool TimeOfDay_Parse(
+    const ::std::string& name, TimeOfDay* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<TimeOfDay>(
+    TimeOfDay_descriptor(), name, value);
+}
 // ===================================================================
 
 class Payment : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:com.bitcoin.proto3.Payment) */ {
@@ -190,6 +213,12 @@ class Payment : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::std::string* release_memo();
   void set_allocated_memo(::std::string* memo);
 
+  // .com.bitcoin.proto3.TimeOfDay tod = 6;
+  void clear_tod();
+  static const int kTodFieldNumber = 6;
+  ::com::bitcoin::proto3::TimeOfDay tod() const;
+  void set_tod(::com::bitcoin::proto3::TimeOfDay value);
+
   // @@protoc_insertion_point(class_scope:com.bitcoin.proto3.Payment)
  private:
 
@@ -198,6 +227,7 @@ class Payment : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::google::protobuf::RepeatedPtrField< ::com::bitcoin::proto3::Output > refund_to_;
   ::google::protobuf::internal::ArenaStringPtr merchant_data_;
   ::google::protobuf::internal::ArenaStringPtr memo_;
+  int tod_;
   mutable int _cached_size_;
   friend struct protobuf_PaymentV3_2eproto::TableStruct;
 };
@@ -414,6 +444,20 @@ inline void Payment::set_allocated_memo(::std::string* memo) {
   // @@protoc_insertion_point(field_set_allocated:com.bitcoin.proto3.Payment.memo)
 }
 
+// .com.bitcoin.proto3.TimeOfDay tod = 6;
+inline void Payment::clear_tod() {
+  tod_ = 0;
+}
+inline ::com::bitcoin::proto3::TimeOfDay Payment::tod() const {
+  // @@protoc_insertion_point(field_get:com.bitcoin.proto3.Payment.tod)
+  return static_cast< ::com::bitcoin::proto3::TimeOfDay >(tod_);
+}
+inline void Payment::set_tod(::com::bitcoin::proto3::TimeOfDay value) {
+  
+  tod_ = value;
+  // @@protoc_insertion_point(field_set:com.bitcoin.proto3.Payment.tod)
+}
+
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
 
 // @@protoc_insertion_point(namespace_scope)
@@ -422,6 +466,20 @@ inline void Payment::set_allocated_memo(::std::string* memo) {
 }  // namespace proto3
 }  // namespace bitcoin
 }  // namespace com
+
+#ifndef SWIG
+namespace google {
+namespace protobuf {
+
+template <> struct is_proto_enum< ::com::bitcoin::proto3::TimeOfDay> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::com::bitcoin::proto3::TimeOfDay>() {
+  return ::com::bitcoin::proto3::TimeOfDay_descriptor();
+}
+
+}  // namespace protobuf
+}  // namespace google
+#endif  // SWIG
 
 // @@protoc_insertion_point(global_scope)
 
