@@ -79,11 +79,10 @@ module Protobuf
         name = generator.get_apb_filename(File.basename(file.name.not_nil!, ".proto"))
 
         existing = outputFiles.fetch(name, nil)
-        unless existing.nil?
-          if generator.version > existing.version
-            # overwrite - only write out APB def of highest version
+
+        # overwrite - only write out APB def of highest version
+        if existing.nil? || generator.version > existing.version
             outputFiles[name] = OutputFile.new(name, content, generator.syntax)
-          end
         end
       end
 
