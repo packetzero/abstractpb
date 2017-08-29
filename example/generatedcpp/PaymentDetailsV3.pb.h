@@ -196,6 +196,20 @@ class PaymentDetails : public ::google::protobuf::Message /* @@protoc_insertion_
   ::std::string* release_merchant_data();
   void set_allocated_merchant_data(::std::string* merchant_data);
 
+  // string someNewField = 9;
+  void clear_somenewfield();
+  static const int kSomeNewFieldFieldNumber = 9;
+  const ::std::string& somenewfield() const;
+  void set_somenewfield(const ::std::string& value);
+  #if LANG_CXX11
+  void set_somenewfield(::std::string&& value);
+  #endif
+  void set_somenewfield(const char* value);
+  void set_somenewfield(const char* value, size_t size);
+  ::std::string* mutable_somenewfield();
+  ::std::string* release_somenewfield();
+  void set_allocated_somenewfield(::std::string* somenewfield);
+
   // uint64 time = 3;
   void clear_time();
   static const int kTimeFieldNumber = 3;
@@ -208,6 +222,12 @@ class PaymentDetails : public ::google::protobuf::Message /* @@protoc_insertion_
   ::google::protobuf::uint64 expires() const;
   void set_expires(::google::protobuf::uint64 value);
 
+  // int32 someNewInt = 10;
+  void clear_somenewint();
+  static const int kSomeNewIntFieldNumber = 10;
+  ::google::protobuf::int32 somenewint() const;
+  void set_somenewint(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:com.bitcoin.proto3.PaymentDetails)
  private:
 
@@ -217,8 +237,10 @@ class PaymentDetails : public ::google::protobuf::Message /* @@protoc_insertion_
   ::google::protobuf::internal::ArenaStringPtr memo_;
   ::google::protobuf::internal::ArenaStringPtr payment_url_;
   ::google::protobuf::internal::ArenaStringPtr merchant_data_;
+  ::google::protobuf::internal::ArenaStringPtr somenewfield_;
   ::google::protobuf::uint64 time_;
   ::google::protobuf::uint64 expires_;
+  ::google::protobuf::int32 somenewint_;
   mutable int _cached_size_;
   friend struct protobuf_PaymentDetailsV3_2eproto::TableStruct;
 };
@@ -498,6 +520,73 @@ inline void PaymentDetails::set_allocated_merchant_data(::std::string* merchant_
   }
   merchant_data_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), merchant_data);
   // @@protoc_insertion_point(field_set_allocated:com.bitcoin.proto3.PaymentDetails.merchant_data)
+}
+
+// string someNewField = 9;
+inline void PaymentDetails::clear_somenewfield() {
+  somenewfield_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& PaymentDetails::somenewfield() const {
+  // @@protoc_insertion_point(field_get:com.bitcoin.proto3.PaymentDetails.someNewField)
+  return somenewfield_.GetNoArena();
+}
+inline void PaymentDetails::set_somenewfield(const ::std::string& value) {
+  
+  somenewfield_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:com.bitcoin.proto3.PaymentDetails.someNewField)
+}
+#if LANG_CXX11
+inline void PaymentDetails::set_somenewfield(::std::string&& value) {
+  
+  somenewfield_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:com.bitcoin.proto3.PaymentDetails.someNewField)
+}
+#endif
+inline void PaymentDetails::set_somenewfield(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  somenewfield_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:com.bitcoin.proto3.PaymentDetails.someNewField)
+}
+inline void PaymentDetails::set_somenewfield(const char* value, size_t size) {
+  
+  somenewfield_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:com.bitcoin.proto3.PaymentDetails.someNewField)
+}
+inline ::std::string* PaymentDetails::mutable_somenewfield() {
+  
+  // @@protoc_insertion_point(field_mutable:com.bitcoin.proto3.PaymentDetails.someNewField)
+  return somenewfield_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* PaymentDetails::release_somenewfield() {
+  // @@protoc_insertion_point(field_release:com.bitcoin.proto3.PaymentDetails.someNewField)
+  
+  return somenewfield_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void PaymentDetails::set_allocated_somenewfield(::std::string* somenewfield) {
+  if (somenewfield != NULL) {
+    
+  } else {
+    
+  }
+  somenewfield_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), somenewfield);
+  // @@protoc_insertion_point(field_set_allocated:com.bitcoin.proto3.PaymentDetails.someNewField)
+}
+
+// int32 someNewInt = 10;
+inline void PaymentDetails::clear_somenewint() {
+  somenewint_ = 0;
+}
+inline ::google::protobuf::int32 PaymentDetails::somenewint() const {
+  // @@protoc_insertion_point(field_get:com.bitcoin.proto3.PaymentDetails.someNewInt)
+  return somenewint_;
+}
+inline void PaymentDetails::set_somenewint(::google::protobuf::int32 value) {
+  
+  somenewint_ = value;
+  // @@protoc_insertion_point(field_set:com.bitcoin.proto3.PaymentDetails.someNewInt)
 }
 
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS

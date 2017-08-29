@@ -16,12 +16,31 @@ module Protobuf
     end
   end
 
+  class OutputFile
+    property name : String
+    property syntax : String
+    property content : String
+
+    def initialize(@name, @content, @syntax)
+    end
+
+    # returns int protobuf version (2, 3, etc.)
+    def version
+      syntax.gsub(/[a-zA-Z]*/,"").to_i rescue 2
+    end
+  end
+
   class MsgSummary
     property name : String
-    property syntax = "2" #: String
+    property syntax = "proto2"
     property fields = [] of FieldSummary
 
     def initialize(@name)
+    end
+
+    # returns int protobuf version (2, 3, etc.)
+    def version
+      syntax.gsub(/[a-zA-Z]*/,"").to_i rescue 2
     end
   end
 
@@ -31,6 +50,7 @@ module Protobuf
     @@sbToPbH = String::Builder.new
     @@sbFromPb = String::Builder.new
     @@sbFromPbH = String::Builder.new
+    property syntax = "proto2"
 
     # by default APB structs are prefixed with "C". override with ENV variable PROTOBUF_APBNAMING
     @@fmtAPBName="C%%"
@@ -51,15 +71,26 @@ module Protobuf
       @@sbToPb.puts "\#include \"apb_to_pb.h\""
       @@sbFromPb.puts "\#include \"apb_from_pb.h\""
 
-      # TODO: if both V2 and V3 for a message, only output apb.h for V3
+      outputFiles = {} of String => OutputFile
 
-      files = req.proto_file.not_nil!.map do |file|
+      req.proto_file.not_nil!.map do |file|
         generator = new(file, package_map)
-        CodeGeneratorResponse::File.new(
-          name: File.basename(file.name.not_nil!, ".proto").gsub("V3","") + ".apb.h", # TODO: V3 removal is a hack for our file naming
-          content: generator.compile
-        )
+        content = generator.compile
+        name = generator.get_apb_filename(File.basename(file.name.not_nil!, ".proto"))
+
+        existing = outputFiles.fetch(name, nil)
+        unless existing.nil?
+          if generator.version > existing.version
+            # overwrite - only write out APB def of highest version
+            outputFiles[name] = OutputFile.new(name, content, generator.syntax)
+          end
+        end
       end
+
+      files = [] of CodeGeneratorResponse::File
+      outputFiles.each {|name, msgSum|
+        files.push CodeGeneratorResponse::File.new( name: msgSum.name, content: msgSum.content )
+      }
 
       files.push CodeGeneratorResponse::File.new(
         name: File.basename("apb_to_pb.h"),
@@ -84,18 +115,23 @@ module Protobuf
       CodeGeneratorResponse.new(file: files)
     end
 
+    # returns int protobuf version (2, 3, etc.)
+    def version
+      syntax.gsub(/[a-zA-Z]*/,"").to_i rescue 2
+    end
+
     def apb_name(msg_name)
       @@fmtAPBName.gsub("%%", msg_name)
     end
 
     def gen_to_pb(msg : MsgSummary)
-        ver = msg.syntax.gsub(/[a-zA-Z]*/,"")
+        ver = msg.version
         pbname=msg.name
         pbname="#{package_name.not_nil!.gsub(".","::")}::#{msg.name}" if package_name
 
         topbh_puts "\#include \"#{msg.name}.apb.h\""
 
-        topb_puts "\#include <#{msg.name}#{ver == "3" ? "V3" : ""}.pb.h>"
+        topb_puts "\#include <#{msg.name}#{ver == 3 ? "V3" : ""}.pb.h>"
         topb_puts ""
         topb_puts "void apb_init_pb_v#{ver}(#{apb_name(msg.name)} &apb, #{pbname} &pb)"
         topb_puts "{"
@@ -140,8 +176,8 @@ module Protobuf
           topb_puts ""
           topb_puts "apb_init_pb_v#{ver}(apb, pb);"
           topb_puts ""
-          if (msg.syntax == "proto2")
-            topb_puts "if (!pb.isInitialized()) return false;"
+          if (msg.version == 2)
+            topb_puts "if (!pb.IsInitialized()) return false;"
             topb_puts ""
           end
           topb_puts "return pb.SerializeToString(&dest);"
@@ -150,13 +186,13 @@ module Protobuf
     end
 
     def gen_from_pb(msg : MsgSummary)
-        ver = msg.syntax.gsub(/[a-zA-Z]*/,"")
+        ver = msg.version
         pbname=msg.name
         pbname="#{package_name.not_nil!.gsub(".","::")}::#{msg.name}" if package_name
 
         frompbh_puts "\#include \"#{msg.name}.apb.h\""
 
-        frompb_puts "\#include <#{msg.name}#{ver == "3" ? "V3" : ""}.pb.h>"
+        frompb_puts "\#include <#{msg.name}#{ver == 3 ? "V3" : ""}.pb.h>"
         frompb_puts ""
         frompb_puts "static void _init_from_pb_v3(const #{pbname} &pb, #{apb_name(msg.name)} &dest)"
         frompb_puts "{"
@@ -164,7 +200,7 @@ module Protobuf
           msg.fields.each do |f|
             cfield = f.name.downcase
 
-            frompb_puts "if (pb.has_#{cfield}())" if msg.syntax == "proto2"
+            frompb_puts "if (pb.has_#{cfield}())" if msg.version == 2 && false == f.isRepeated
 
             if f.isRepeated
               frompb_puts "for (auto it = pb.#{f.name}().begin(); it != pb.#{f.name}().end(); it++)"
@@ -179,20 +215,12 @@ module Protobuf
                 frompb_puts "   int idx = dest.#{f.name}.size();"
                 frompb_puts "   dest.#{f.name}.resize(idx + 1);"
                 frompb_puts "   _init_from_pb_v3(*it, dest.#{f.name}[idx]);"
-                #frompb_puts "   auto tmp = #{f.absType}();"
-                #frompb_puts "   _init_from_pb_v3(*it, tmp);"
-                #frompb_puts "   dest.#{f.name}.push_back( tmp);  // #{f.absType}"
                 frompb_puts "}"
               end
             else
               if (f.isPrimitive)
 
                 frompb_puts "dest.#{f.name} = pb.#{cfield}();"
-                #if (f.absType == "CBytes")
-                #  frompb_puts "if (apb.#{f.name}.isSet()) pb.set_#{cfield}(apb.#{f.name}.ptr(), apb.#{f.name}.size());"
-                #else
-                #  frompb_puts "if (apb.#{f.name}.isSet()) pb.set_#{cfield}(apb.#{f.name});"
-                #end
               else
                 frompb_puts "{"
                 indent do
@@ -286,6 +314,10 @@ module Protobuf
       @package_name ||= @file.package
     end
 
+    def get_apb_filename(filename : String)
+      filename.gsub("V3","") + ".apb.h"   # TODO: use @messages and filename to determine best name
+    end
+
     def message!(message_type)
       @cleanup_fields = [] of String
       puts "\#ifndef _ABS_C#{message_type.name}_H_"
@@ -302,39 +334,23 @@ module Protobuf
       puts "{"
 
       indent do
-#        puts nil
-
-        #puts "include Protobuf::Message"
 
         unless message_type.enum_type.nil?
-#          puts "// enums"
-#          puts ""
           message_type.enum_type.not_nil!.each { |et| enum!(et, message_type.name) }
           puts nil
         end
 
-#        puts "// properties"
-#        puts ""
         unless message_type.nested_type.nil?
           message_type.nested_type.not_nil!.each { |mt| message!(mt) }
           puts ""
         end
 
-        # use contract3() macro for proto3, otherwise use contract() macro
-
         syntax = @file.syntax.nil? ? "proto2" : @file.syntax
         @msg.not_nil!.syntax = syntax.not_nil!
+        @syntax = syntax.not_nil!
 
-        #puts "contract_of \"#{syntax}\" do"
-#        indent do
           message_type.field.not_nil!.each { |f| field!(f, syntax, message_type) } unless message_type.field.nil?
-#        end
-        #puts "end"
 
-#        puts ""
-#        puts "// methods "
-#        puts ""
-#        puts "DEF_to_pb;"
         unless @cleanup_fields.empty?
           puts nil
           puts "~#{apb_name(message_type.name)}() {"
@@ -346,13 +362,13 @@ module Protobuf
           puts "}"
         end
       end
-      #puts "end"
       puts  "};"
       puts "\#endif // _ABS_C#{message_type.name}_H_"
 
+      @messages.push @msg.not_nil!
+
       gen_to_pb @msg.not_nil!
       gen_from_pb @msg.not_nil!
-#      @messages.push @msg.not_nil!
     end
 
     def get_ctype (std_name, is_repeated)
@@ -394,9 +410,6 @@ module Protobuf
         "repeated"
       end
 
-      ##puts "// field type:'#{field.type.to_s} type_name:'#{field.type_name}'"
-      # TODO: nested types should be pointers
-
       isSubType = false
       type_name = unless field.type_name.nil?
         t = field.type_name.not_nil!
@@ -428,14 +441,12 @@ module Protobuf
         end
       else
         get_ctype field.type.to_s, met == "repeated"
-        #{#}":#{field.type.to_s.sub(/^TYPE_/, "").downcase}"
       end
 
-      cTypeName = type_name.to_s # get_ctype type_name
+      cTypeName = type_name.to_s
 
 
-      # CString           fieldName
-      columnPadding = 24 # - cTypeName.size
+      columnPadding = 24
       puts "#{cTypeName.not_nil!.ljust(columnPadding)} #{field.name.not_nil!};"
       @msg.not_nil!.fields.push FieldSummary.new(field.name.not_nil!, cTypeName.not_nil!,
         met == "repeated", !isSubType)
@@ -474,7 +485,6 @@ module Protobuf
           field_desc += ", packed: true" if field.options.not_nil!.packed
         end
       end
-#      puts field_desc
     end
 
     def indent
