@@ -1,9 +1,9 @@
 // protoc-gen-cppabs: Generated from PaymentDetailsV3.proto for com.bitcoin.proto3
+#ifndef _ABS_PaymentDetailsV3_H_
+#define _ABS_PaymentDetailsV3_H_
+
 #include <abstractpb_types.h>
 using namespace AbstractPB;
-
-#ifndef _ABS_CPaymentDetails_H_
-#define _ABS_CPaymentDetails_H_
 
 struct CPaymentDetails final : CObj 
 {
@@ -17,4 +17,4 @@ struct CPaymentDetails final : CObj
   CString                  someNewField;
   CInt32                   someNewInt;
 };
-#endif // _ABS_CPaymentDetails_H_
+#endif // _ABS_PaymentDetailsV3_H_

@@ -188,6 +188,8 @@ static void _init_from_pb_v3(const com::bitcoin::proto3::Payment &pb, CPayment &
   
   dest.memo = pb.memo();
   
+  dest.tod = ( TimeOfDay )pb.tod(); // CPrim< TimeOfDay >
+  
 }
 
 bool from_pb_v3(CBytes &src, CPayment &dest)

@@ -1,9 +1,9 @@
-all: example
+all: genapb example
 
-gen_apb:
+genapb:
 	./tools/bin/protoc --cppabs_out=apb --plugin=../protoc-plugin/bin/protoc-gen-cppabs -I messagesV3 -I messagesV2 messagesV*/*.proto
 
-gen_cpp:
+gencpp:
 	./tools/bin/protoc --cpp_out=generatedcpp -I messagesV2 messagesV2/*.proto
 	./tools/bin/protoc --cpp_out=generatedcpp -I messagesV3 messagesV3/*.proto
 

@@ -11,8 +11,12 @@ module Protobuf
     property absType : String
     property isRepeated : Bool
     property isPrimitive : Bool
+    property isEnum : Bool
+    property enumType : String?
 
-    def initialize(@name, @absType, @isRepeated, @isPrimitive)
+    def initialize(@name, @absType, @isRepeated, @isPrimitive, @isEnum, @enumType)
+      # convert ".com.bitcoin.proto3.TimeOfDay" into C-stype namespace "::com::bitcoin::proto3::TimeOfDay"
+      @enumType = @enumType.not_nil!.gsub(".", "::") unless @enumType.nil?
     end
   end
 
@@ -153,7 +157,11 @@ module Protobuf
                 if (f.absType == "CBytes")
                   topb_puts "if (apb.#{f.name}.isSet()) pb.set_#{cfield}(apb.#{f.name}.ptr(), apb.#{f.name}.size());"
                 else
-                  topb_puts "if (apb.#{f.name}.isSet()) pb.set_#{cfield}(apb.#{f.name});"
+                  if (f.isEnum)
+                    topb_puts "if (apb.#{f.name}.isSet()) pb.set_#{cfield}((#{f.enumType})apb.#{f.name}.v());"
+                  else
+                    topb_puts "if (apb.#{f.name}.isSet()) pb.set_#{cfield}(apb.#{f.name});"
+                  end
                 end
               else
                 topb_puts "if (0L != apb.#{f.name}) apb_init_pb_v#{ver}(*apb.#{f.name}, *pb.mutable_#{cfield}());"
@@ -219,7 +227,13 @@ module Protobuf
             else
               if (f.isPrimitive)
 
-                frompb_puts "dest.#{f.name} = pb.#{cfield}();"
+                if (f.isEnum)
+                  enumType = f.absType.gsub(/.*</,"").gsub(">","")
+                  frompb_puts "dest.#{f.name} = (#{enumType})pb.#{cfield}(); // #{f.absType}" 
+                  #topb_puts "if (apb.#{f.name}.isSet()) pb.set_#{cfield}((#{f.enumType})apb.#{f.name}.v());"
+                else
+                  frompb_puts "dest.#{f.name} = pb.#{cfield}();"
+                end
               else
                 frompb_puts "{"
                 indent do
@@ -267,13 +281,15 @@ module Protobuf
     def compile
       String.build do |str|
         @str = str
+        name = @file.name.not_nil!.gsub(".proto","").gsub(".","_")
         package_part = package_name ? "for #{package_name}" : ""
         puts "// protoc-gen-cppabs: Generated from #{@file.name} #{package_part}".strip
 
+        puts "\#ifndef _ABS_#{name}_H_"
+        puts "\#define _ABS_#{name}_H_"
+        puts nil
         puts "\#include <abstractpb_types.h>"
         puts "using namespace AbstractPB;"
-
-        ##puts "require \"protobuf\""
         puts nil
 
         ns! do
@@ -285,6 +301,7 @@ module Protobuf
           end
         end
 
+        puts "\#endif // _ABS_#{name}_H_"
       end
     end
 
@@ -319,9 +336,6 @@ module Protobuf
 
     def message!(message_type)
       @cleanup_fields = [] of String
-      puts "\#ifndef _ABS_C#{message_type.name}_H_"
-      puts "\#define _ABS_C#{message_type.name}_H_"
-      puts nil
 
       # guard against recursive structs
       #structure = !message_type.field.nil? && message_type.field.not_nil!.any? { |f| f.type_name && f.type_name.not_nil!.split(".").last == message_type.name } ? "class" : "struct"
@@ -362,7 +376,6 @@ module Protobuf
         end
       end
       puts  "};"
-      puts "\#endif // _ABS_C#{message_type.name}_H_"
 
       @messages.push @msg.not_nil!
 
@@ -410,6 +423,10 @@ module Protobuf
       end
 
       isSubType = false
+      isEnum = (field.type == CodeGeneratorRequest::FieldDescriptorProto::Type::TYPE_ENUM)
+      enumType = nil
+      enumType = field.type_name.not_nil! if isEnum
+
       type_name = unless field.type_name.nil?
         t = field.type_name.not_nil!
         t = t.gsub(/^\.{0,}#{package_name.not_nil!}\.*/, "") unless package_name.nil?
@@ -423,13 +440,13 @@ module Protobuf
         s = s.gsub(message_type.name.not_nil!,"") if s.starts_with?(message_type.name.not_nil!)
 
         # remember class name prefix
-        s = "#{apb_name(s)}" unless  field.type == CodeGeneratorRequest::FieldDescriptorProto::Type::TYPE_ENUM
+        s = "#{apb_name(s)}" unless isEnum
 
         if met == "repeated"
           isSubType = true
           "VEC< #{s} >"
         else
-          unless field.type == CodeGeneratorRequest::FieldDescriptorProto::Type::TYPE_ENUM
+          unless isEnum
             # mark this field for cleanup in destructor
             isSubType = true
             @cleanup_fields.push  field.name.not_nil!
@@ -444,11 +461,10 @@ module Protobuf
 
       cTypeName = type_name.to_s
 
-
       columnPadding = 24
       puts "#{cTypeName.not_nil!.ljust(columnPadding)} #{field.name.not_nil!};"
       @msg.not_nil!.fields.push FieldSummary.new(field.name.not_nil!, cTypeName.not_nil!,
-        met == "repeated", !isSubType)
+        met == "repeated", !isSubType, isEnum, enumType)
 
       field_desc = "#{met} :#{field.name.not_nil!.underscore}, #{type_name}, #{field.number}"
       unless field.default_value.nil?

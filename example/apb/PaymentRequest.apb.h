@@ -1,9 +1,9 @@
 // protoc-gen-cppabs: Generated from PaymentRequestV3.proto for com.bitcoin.proto3
+#ifndef _ABS_PaymentRequestV3_H_
+#define _ABS_PaymentRequestV3_H_
+
 #include <abstractpb_types.h>
 using namespace AbstractPB;
-
-#ifndef _ABS_CPaymentRequest_H_
-#define _ABS_CPaymentRequest_H_
 
 struct CPaymentRequest final : CObj 
 {
@@ -13,4 +13,4 @@ struct CPaymentRequest final : CObj
   CBytes                   serialized_payment_details;
   CBytes                   signature;
 };
-#endif // _ABS_CPaymentRequest_H_
+#endif // _ABS_PaymentRequestV3_H_

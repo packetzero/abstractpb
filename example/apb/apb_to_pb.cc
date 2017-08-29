@@ -154,6 +154,8 @@ void apb_init_pb_v3(CPayment &apb, com::bitcoin::proto3::Payment &pb)
   
   if (apb.memo.isSet()) pb.set_memo(apb.memo);
   
+  if (apb.tod.isSet()) pb.set_tod((::com::bitcoin::proto3::TimeOfDay)apb.tod.v());
+  
 }
 
 bool to_pb_v3(CPayment &apb, std::string &dest)
