@@ -9,6 +9,10 @@
 #include <assert.h>
 
 #include <string>
+#ifdef _WIN32
+#include <locale>  // wstring to string conversion
+#include <codecvt>
+#endif
 #include <vector>
 #include <map>
 #include <string.h> // memcpy
@@ -72,6 +76,33 @@ namespace AbstractPB
     bool eq(const NSString* other) { return val == STD_STRING(other); }
 #endif // _APPLE_
 
+#ifdef _WIN32
+    void operator= (const std::wstring& other) { _set(ws2s(other)); c = val.c_str(); }
+
+    operator std::wstring() const { return v(); }
+
+	std::wstring v() const {
+      assert(isSet());
+      return s2ws(val);
+    }
+
+	typedef std::codecvt_utf8<wchar_t> convert_typeX;
+
+	std::wstring s2ws(const std::string& str) const
+	{
+		std::wstring_convert<convert_typeX, wchar_t> converterX;
+
+		return converterX.from_bytes(str);
+	}
+
+	std::string ws2s(const std::wstring& wstr) const
+	{
+		std::wstring_convert<convert_typeX, wchar_t> converterX;
+
+		return converterX.to_bytes(wstr);
+	}
+#endif // _WIN32
+
   };
 
   // bytes abstraction
@@ -94,33 +125,33 @@ namespace AbstractPB
 
   // primitive type wrappers
 
-  using CUInt8 = CPrim<uint8_t>;
-  using CInt8 = CPrim<int8_t>;
-  using CUInt16 = CPrim<uint16_t>;
-  using CInt16 = CPrim<int16_t>;
-  using CUInt32 = CPrim<uint32_t>;
-  using CInt32 = CPrim<int32_t>;
-  using CUInt64 = CPrim<uint64_t>;
-  using CInt64 = CPrim<int64_t>;
-  using CBool = CPrim<bool>;
-  using CDouble = CPrim<double>;
-  using CFloat = CPrim<float>;
+  typedef CPrim<uint8_t> CUInt8;
+  typedef CPrim<int8_t> CInt8;
+  typedef CPrim<uint16_t> CUInt16;
+  typedef CPrim<int16_t> CInt16;
+  typedef CPrim<uint32_t> CUInt32;
+  typedef CPrim<int32_t> CInt32;
+  typedef CPrim<uint64_t> CUInt64;
+  typedef CPrim<int64_t> CInt64;
+  typedef CPrim<bool> CBool;
+  typedef CPrim<double> CDouble;
+  typedef CPrim<float> CFloat;
 
   // vectors
 
-  using V_String = std::vector<CString> ;
-  using V_Int64  = std::vector<int64_t> ;
-  using V_Int32  = std::vector<int32_t> ;
-  using V_Int16  = std::vector<int16_t> ;
-  using V_Int8   = std::vector<int8_t>  ;
-  using V_UInt64 = std::vector<uint64_t> ;
-  using V_UInt32 = std::vector<uint32_t> ;
-  using V_UInt16 = std::vector<uint16_t> ;
-  using V_UInt8  = std::vector<uint8_t>  ;
-  using V_Bool   = std::vector<bool>  ;
-  using V_Double = std::vector<double>  ;
-  using V_Float  = std::vector<float>  ;
-  using V_Bytes  = std::vector<CBytes> ;
+  typedef std::vector<CString> V_String;
+  typedef std::vector<int64_t> V_Int64;
+  typedef std::vector<int32_t> V_Int32;
+  typedef std::vector<int16_t> V_Int16;
+  typedef std::vector<int8_t>  V_Int8;
+  typedef std::vector<uint64_t> V_UInt64;
+  typedef std::vector<uint32_t> V_UInt32;
+  typedef std::vector<uint16_t> V_UInt16;
+  typedef std::vector<uint8_t>  V_UInt8;
+  typedef std::vector<bool>  V_Bool;
+  typedef std::vector<double>  V_Double;
+  typedef std::vector<float>  V_Float;
+  typedef std::vector<CBytes> V_Bytes;
 
   #define VEC std::vector
 }

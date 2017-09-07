@@ -27,8 +27,15 @@ void doSomethingWithPaymentDetails()
 {
   CPaymentDetails apb = CPaymentDetails();
 
+#ifdef _WIN32
+  // test wstring convenience methods
+  apb.network = L"test";
+  apb.memo = L"Some message here";
+  std::wstring blah = apb.network;
+#else
   apb.network = "test";
   apb.memo = "Some message here";
+#endif
 
   // Attempt to serialize V2 protobuf ... should fail, missing required 'time' field
 
