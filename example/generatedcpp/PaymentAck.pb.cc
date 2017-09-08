@@ -16,7 +16,10 @@
 #include <google/protobuf/reflection_ops.h>
 #include <google/protobuf/wire_format.h>
 // @@protoc_insertion_point(includes)
-class PaymentAckDefaultTypeInternal : public ::google::protobuf::internal::ExplicitlyConstructed<PaymentAck> {
+class PaymentAckDefaultTypeInternal {
+public:
+ ::google::protobuf::internal::ExplicitlyConstructed<PaymentAck>
+     _instance;
 } _PaymentAck_default_instance_;
 
 namespace protobuf_PaymentAck_2eproto {
@@ -29,20 +32,20 @@ namespace {
 }  // namespace
 
 PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::ParseTableField
-    const TableStruct::entries[] = {
+    const TableStruct::entries[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   {0, 0, 0, ::google::protobuf::internal::kInvalidMask, 0, 0},
 };
 
 PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::AuxillaryParseTableField
-    const TableStruct::aux[] = {
+    const TableStruct::aux[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ::google::protobuf::internal::AuxillaryParseTableField(),
 };
 PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::ParseTable const
-    TableStruct::schema[] = {
-  { NULL, NULL, 0, -1, -1, false },
+    TableStruct::schema[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
+  { NULL, NULL, 0, -1, -1, -1, -1, NULL, false },
 };
 
-const ::google::protobuf::uint32 TableStruct::offsets[] = {
+const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PaymentAck, _has_bits_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PaymentAck, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -53,8 +56,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] = {
   1,
   0,
 };
-
-static const ::google::protobuf::internal::MigrationSchema schemas[] = {
+static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, 7, sizeof(PaymentAck)},
 };
 
@@ -84,19 +86,14 @@ void protobuf_RegisterTypes(const ::std::string&) {
 }
 
 }  // namespace
-
-void TableStruct::Shutdown() {
-  _PaymentAck_default_instance_.Shutdown();
-  delete file_level_metadata[0].reflection;
-}
-
 void TableStruct::InitDefaultsImpl() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   ::google::protobuf::internal::InitProtobufDefaults();
   ::protobuf_Payment_2eproto::InitDefaults();
-  _PaymentAck_default_instance_.DefaultConstruct();
-  _PaymentAck_default_instance_.get_mutable()->payment_ = const_cast< ::Payment*>(
+  _PaymentAck_default_instance_._instance.DefaultConstruct();
+  ::google::protobuf::internal::OnShutdownDestroyMessage(
+      &_PaymentAck_default_instance_);_PaymentAck_default_instance_._instance.get_mutable()->payment_ = const_cast< ::Payment*>(
       ::Payment::internal_default_instance());
 }
 
@@ -104,9 +101,10 @@ void InitDefaults() {
   static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
   ::google::protobuf::GoogleOnceInit(&once, &TableStruct::InitDefaultsImpl);
 }
+namespace {
 void AddDescriptorsImpl() {
   InitDefaults();
-  static const char descriptor[] = {
+  static const char descriptor[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\020PaymentAck.proto\032\rPayment.proto\"5\n\nPay"
       "mentAck\022\031\n\007payment\030\001 \002(\0132\010.Payment\022\014\n\004me"
       "mo\030\002 \001(\t"
@@ -116,14 +114,14 @@ void AddDescriptorsImpl() {
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "PaymentAck.proto", &protobuf_RegisterTypes);
   ::protobuf_Payment_2eproto::AddDescriptors();
-  ::google::protobuf::internal::OnShutdown(&TableStruct::Shutdown);
 }
+} // anonymous namespace
 
 void AddDescriptors() {
   static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
   ::google::protobuf::GoogleOnceInit(&once, &AddDescriptorsImpl);
 }
-// Force AddDescriptors() to be called at static initialization time.
+// Force AddDescriptors() to be called at dynamic initialization time.
 struct StaticDescriptorInitializer {
   StaticDescriptorInitializer() {
     AddDescriptors();
@@ -179,9 +177,7 @@ PaymentAck::~PaymentAck() {
 
 void PaymentAck::SharedDtor() {
   memo_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  if (this != internal_default_instance()) {
-    delete payment_;
-  }
+  if (this != internal_default_instance()) delete payment_;
 }
 
 void PaymentAck::SetCachedSize(int size) const {
@@ -209,12 +205,17 @@ PaymentAck* PaymentAck::New(::google::protobuf::Arena* arena) const {
 
 void PaymentAck::Clear() {
 // @@protoc_insertion_point(message_clear_start:PaymentAck)
-  if (_has_bits_[0 / 32] & 3u) {
-    if (has_memo()) {
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  if (cached_has_bits & 3u) {
+    if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!memo_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
       (*memo_.UnsafeRawStringPointer())->clear();
     }
-    if (has_payment()) {
+    if (cached_has_bits & 0x00000002u) {
       GOOGLE_DCHECK(payment_ != NULL);
       payment_->::Payment::Clear();
     }
@@ -236,7 +237,7 @@ bool PaymentAck::MergePartialFromCodedStream(
       // required .Payment payment = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(10u)) {
+            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                input, mutable_payment()));
         } else {
@@ -248,11 +249,11 @@ bool PaymentAck::MergePartialFromCodedStream(
       // optional string memo = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(18u)) {
+            static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_memo()));
           ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
-            this->memo().data(), this->memo().length(),
+            this->memo().data(), static_cast<int>(this->memo().length()),
             ::google::protobuf::internal::WireFormat::PARSE,
             "PaymentAck.memo");
         } else {
@@ -263,13 +264,11 @@ bool PaymentAck::MergePartialFromCodedStream(
 
       default: {
       handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+        if (tag == 0) {
           goto success;
         }
         DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, mutable_unknown_fields()));
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
         break;
       }
     }
@@ -299,7 +298,7 @@ void PaymentAck::SerializeWithCachedSizes(
   // optional string memo = 2;
   if (cached_has_bits & 0x00000001u) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
-      this->memo().data(), this->memo().length(),
+      this->memo().data(), static_cast<int>(this->memo().length()),
       ::google::protobuf::internal::WireFormat::SERIALIZE,
       "PaymentAck.memo");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
@@ -308,13 +307,14 @@ void PaymentAck::SerializeWithCachedSizes(
 
   if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        unknown_fields(), output);
+        _internal_metadata_.unknown_fields(), output);
   }
   // @@protoc_insertion_point(serialize_end:PaymentAck)
 }
 
 ::google::protobuf::uint8* PaymentAck::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
   // @@protoc_insertion_point(serialize_to_array_start:PaymentAck)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
@@ -330,7 +330,7 @@ void PaymentAck::SerializeWithCachedSizes(
   // optional string memo = 2;
   if (cached_has_bits & 0x00000001u) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
-      this->memo().data(), this->memo().length(),
+      this->memo().data(), static_cast<int>(this->memo().length()),
       ::google::protobuf::internal::WireFormat::SERIALIZE,
       "PaymentAck.memo");
     target =
@@ -340,7 +340,7 @@ void PaymentAck::SerializeWithCachedSizes(
 
   if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        unknown_fields(), target);
+        _internal_metadata_.unknown_fields(), target);
   }
   // @@protoc_insertion_point(serialize_to_array_end:PaymentAck)
   return target;
@@ -353,7 +353,7 @@ size_t PaymentAck::ByteSizeLong() const {
   if (_internal_metadata_.have_unknown_fields()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        unknown_fields());
+        _internal_metadata_.unknown_fields());
   }
   // required .Payment payment = 1;
   if (has_payment()) {
@@ -433,11 +433,12 @@ void PaymentAck::Swap(PaymentAck* other) {
   InternalSwap(other);
 }
 void PaymentAck::InternalSwap(PaymentAck* other) {
+  using std::swap;
   memo_.Swap(&other->memo_);
-  std::swap(payment_, other->payment_);
-  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  swap(payment_, other->payment_);
+  swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
-  std::swap(_cached_size_, other->_cached_size_);
+  swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata PaymentAck::GetMetadata() const {
@@ -463,9 +464,10 @@ void PaymentAck::clear_payment() {
   clear_has_payment();
 }
 const ::Payment& PaymentAck::payment() const {
+  const ::Payment* p = payment_;
   // @@protoc_insertion_point(field_get:PaymentAck.payment)
-  return payment_ != NULL ? *payment_
-                         : *::Payment::internal_default_instance();
+  return p != NULL ? *p : *reinterpret_cast<const ::Payment*>(
+      &::_Payment_default_instance_);
 }
 ::Payment* PaymentAck::mutable_payment() {
   set_has_payment();

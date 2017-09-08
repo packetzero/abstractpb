@@ -1,2 +1,5 @@
+OS=`uname -s`
+
 all:
-	crystal build -o bin/protoc-gen-cppabs src/protoc-gen-cppabs.cr
+	mkdir -p bin/${OS}
+	crystal build -o bin/${OS}/protoc-gen-cppabs src/protoc-gen-cppabs.cr

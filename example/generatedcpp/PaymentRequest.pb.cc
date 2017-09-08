@@ -16,7 +16,10 @@
 #include <google/protobuf/reflection_ops.h>
 #include <google/protobuf/wire_format.h>
 // @@protoc_insertion_point(includes)
-class PaymentRequestDefaultTypeInternal : public ::google::protobuf::internal::ExplicitlyConstructed<PaymentRequest> {
+class PaymentRequestDefaultTypeInternal {
+public:
+ ::google::protobuf::internal::ExplicitlyConstructed<PaymentRequest>
+     _instance;
 } _PaymentRequest_default_instance_;
 
 namespace protobuf_PaymentRequest_2eproto {
@@ -29,20 +32,20 @@ namespace {
 }  // namespace
 
 PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::ParseTableField
-    const TableStruct::entries[] = {
+    const TableStruct::entries[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   {0, 0, 0, ::google::protobuf::internal::kInvalidMask, 0, 0},
 };
 
 PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::AuxillaryParseTableField
-    const TableStruct::aux[] = {
+    const TableStruct::aux[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ::google::protobuf::internal::AuxillaryParseTableField(),
 };
 PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::ParseTable const
-    TableStruct::schema[] = {
-  { NULL, NULL, 0, -1, -1, false },
+    TableStruct::schema[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
+  { NULL, NULL, 0, -1, -1, -1, -1, NULL, false },
 };
 
-const ::google::protobuf::uint32 TableStruct::offsets[] = {
+const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PaymentRequest, _has_bits_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PaymentRequest, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -59,8 +62,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] = {
   2,
   3,
 };
-
-static const ::google::protobuf::internal::MigrationSchema schemas[] = {
+static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, 10, sizeof(PaymentRequest)},
 };
 
@@ -90,29 +92,26 @@ void protobuf_RegisterTypes(const ::std::string&) {
 }
 
 }  // namespace
-
-void TableStruct::Shutdown() {
-  _PaymentRequest_default_instance_.Shutdown();
-  delete file_level_metadata[0].reflection;
-  PaymentRequest::_default_pki_type_.Shutdown();
-}
-
 void TableStruct::InitDefaultsImpl() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   ::google::protobuf::internal::InitProtobufDefaults();
   PaymentRequest::_default_pki_type_.DefaultConstruct();
   *PaymentRequest::_default_pki_type_.get_mutable() = ::std::string("none", 4);
-  _PaymentRequest_default_instance_.DefaultConstruct();
-}
+  ::google::protobuf::internal::OnShutdownDestroyString(
+      PaymentRequest::_default_pki_type_.get_mutable());
+  _PaymentRequest_default_instance_._instance.DefaultConstruct();
+  ::google::protobuf::internal::OnShutdownDestroyMessage(
+      &_PaymentRequest_default_instance_);}
 
 void InitDefaults() {
   static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
   ::google::protobuf::GoogleOnceInit(&once, &TableStruct::InitDefaultsImpl);
 }
+namespace {
 void AddDescriptorsImpl() {
   InitDefaults();
-  static const char descriptor[] = {
+  static const char descriptor[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\024PaymentRequest.proto\"\225\001\n\016PaymentReques"
       "t\022\"\n\027payment_details_version\030\001 \001(\r:\0011\022\026\n"
       "\010pki_type\030\002 \001(\t:\004none\022\020\n\010pki_data\030\003 \001(\014\022"
@@ -123,14 +122,14 @@ void AddDescriptorsImpl() {
       descriptor, 174);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "PaymentRequest.proto", &protobuf_RegisterTypes);
-  ::google::protobuf::internal::OnShutdown(&TableStruct::Shutdown);
 }
+} // anonymous namespace
 
 void AddDescriptors() {
   static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
   ::google::protobuf::GoogleOnceInit(&once, &AddDescriptorsImpl);
 }
-// Force AddDescriptors() to be called at static initialization time.
+// Force AddDescriptors() to be called at dynamic initialization time.
 struct StaticDescriptorInitializer {
   StaticDescriptorInitializer() {
     AddDescriptors();
@@ -231,20 +230,25 @@ PaymentRequest* PaymentRequest::New(::google::protobuf::Arena* arena) const {
 
 void PaymentRequest::Clear() {
 // @@protoc_insertion_point(message_clear_start:PaymentRequest)
-  if (_has_bits_[0 / 32] & 31u) {
-    if (has_pki_type()) {
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  if (cached_has_bits & 31u) {
+    if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!pki_type_.IsDefault(&PaymentRequest::_default_pki_type_.get()));
       (*pki_type_.UnsafeRawStringPointer())->assign(*&PaymentRequest::_default_pki_type_.get());
     }
-    if (has_pki_data()) {
+    if (cached_has_bits & 0x00000002u) {
       GOOGLE_DCHECK(!pki_data_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
       (*pki_data_.UnsafeRawStringPointer())->clear();
     }
-    if (has_serialized_payment_details()) {
+    if (cached_has_bits & 0x00000004u) {
       GOOGLE_DCHECK(!serialized_payment_details_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
       (*serialized_payment_details_.UnsafeRawStringPointer())->clear();
     }
-    if (has_signature()) {
+    if (cached_has_bits & 0x00000008u) {
       GOOGLE_DCHECK(!signature_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
       (*signature_.UnsafeRawStringPointer())->clear();
     }
@@ -267,7 +271,7 @@ bool PaymentRequest::MergePartialFromCodedStream(
       // optional uint32 payment_details_version = 1 [default = 1];
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(8u)) {
+            static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
           set_has_payment_details_version();
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
@@ -281,11 +285,11 @@ bool PaymentRequest::MergePartialFromCodedStream(
       // optional string pki_type = 2 [default = "none"];
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(18u)) {
+            static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_pki_type()));
           ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
-            this->pki_type().data(), this->pki_type().length(),
+            this->pki_type().data(), static_cast<int>(this->pki_type().length()),
             ::google::protobuf::internal::WireFormat::PARSE,
             "PaymentRequest.pki_type");
         } else {
@@ -297,7 +301,7 @@ bool PaymentRequest::MergePartialFromCodedStream(
       // optional bytes pki_data = 3;
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(26u)) {
+            static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
                 input, this->mutable_pki_data()));
         } else {
@@ -309,7 +313,7 @@ bool PaymentRequest::MergePartialFromCodedStream(
       // required bytes serialized_payment_details = 4;
       case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(34u)) {
+            static_cast< ::google::protobuf::uint8>(34u /* 34 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
                 input, this->mutable_serialized_payment_details()));
         } else {
@@ -321,7 +325,7 @@ bool PaymentRequest::MergePartialFromCodedStream(
       // optional bytes signature = 5;
       case 5: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(42u)) {
+            static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
                 input, this->mutable_signature()));
         } else {
@@ -332,13 +336,11 @@ bool PaymentRequest::MergePartialFromCodedStream(
 
       default: {
       handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+        if (tag == 0) {
           goto success;
         }
         DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, mutable_unknown_fields()));
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
         break;
       }
     }
@@ -367,7 +369,7 @@ void PaymentRequest::SerializeWithCachedSizes(
   // optional string pki_type = 2 [default = "none"];
   if (cached_has_bits & 0x00000001u) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
-      this->pki_type().data(), this->pki_type().length(),
+      this->pki_type().data(), static_cast<int>(this->pki_type().length()),
       ::google::protobuf::internal::WireFormat::SERIALIZE,
       "PaymentRequest.pki_type");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
@@ -394,13 +396,14 @@ void PaymentRequest::SerializeWithCachedSizes(
 
   if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        unknown_fields(), output);
+        _internal_metadata_.unknown_fields(), output);
   }
   // @@protoc_insertion_point(serialize_end:PaymentRequest)
 }
 
 ::google::protobuf::uint8* PaymentRequest::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
   // @@protoc_insertion_point(serialize_to_array_start:PaymentRequest)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
@@ -414,7 +417,7 @@ void PaymentRequest::SerializeWithCachedSizes(
   // optional string pki_type = 2 [default = "none"];
   if (cached_has_bits & 0x00000001u) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
-      this->pki_type().data(), this->pki_type().length(),
+      this->pki_type().data(), static_cast<int>(this->pki_type().length()),
       ::google::protobuf::internal::WireFormat::SERIALIZE,
       "PaymentRequest.pki_type");
     target =
@@ -445,7 +448,7 @@ void PaymentRequest::SerializeWithCachedSizes(
 
   if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        unknown_fields(), target);
+        _internal_metadata_.unknown_fields(), target);
   }
   // @@protoc_insertion_point(serialize_to_array_end:PaymentRequest)
   return target;
@@ -458,7 +461,7 @@ size_t PaymentRequest::ByteSizeLong() const {
   if (_internal_metadata_.have_unknown_fields()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        unknown_fields());
+        _internal_metadata_.unknown_fields());
   }
   // required bytes serialized_payment_details = 4;
   if (has_serialized_payment_details()) {
@@ -576,14 +579,15 @@ void PaymentRequest::Swap(PaymentRequest* other) {
   InternalSwap(other);
 }
 void PaymentRequest::InternalSwap(PaymentRequest* other) {
+  using std::swap;
   pki_type_.Swap(&other->pki_type_);
   pki_data_.Swap(&other->pki_data_);
   serialized_payment_details_.Swap(&other->serialized_payment_details_);
   signature_.Swap(&other->signature_);
-  std::swap(payment_details_version_, other->payment_details_version_);
-  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  swap(payment_details_version_, other->payment_details_version_);
+  swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
-  std::swap(_cached_size_, other->_cached_size_);
+  swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata PaymentRequest::GetMetadata() const {

@@ -20,7 +20,10 @@
 namespace com {
 namespace bitcoin {
 namespace proto3 {
-class PaymentAckDefaultTypeInternal : public ::google::protobuf::internal::ExplicitlyConstructed<PaymentAck> {
+class PaymentAckDefaultTypeInternal {
+public:
+ ::google::protobuf::internal::ExplicitlyConstructed<PaymentAck>
+     _instance;
 } _PaymentAck_default_instance_;
 
 namespace protobuf_PaymentAckV3_2eproto {
@@ -33,20 +36,20 @@ namespace {
 }  // namespace
 
 PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::ParseTableField
-    const TableStruct::entries[] = {
+    const TableStruct::entries[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   {0, 0, 0, ::google::protobuf::internal::kInvalidMask, 0, 0},
 };
 
 PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::AuxillaryParseTableField
-    const TableStruct::aux[] = {
+    const TableStruct::aux[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ::google::protobuf::internal::AuxillaryParseTableField(),
 };
 PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::ParseTable const
-    TableStruct::schema[] = {
-  { NULL, NULL, 0, -1, -1, false },
+    TableStruct::schema[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
+  { NULL, NULL, 0, -1, -1, -1, -1, NULL, false },
 };
 
-const ::google::protobuf::uint32 TableStruct::offsets[] = {
+const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PaymentAck, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -56,8 +59,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] = {
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PaymentAck, memo_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PaymentAck, responsetime_),
 };
-
-static const ::google::protobuf::internal::MigrationSchema schemas[] = {
+static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(PaymentAck)},
 };
 
@@ -87,19 +89,14 @@ void protobuf_RegisterTypes(const ::std::string&) {
 }
 
 }  // namespace
-
-void TableStruct::Shutdown() {
-  _PaymentAck_default_instance_.Shutdown();
-  delete file_level_metadata[0].reflection;
-}
-
 void TableStruct::InitDefaultsImpl() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   ::google::protobuf::internal::InitProtobufDefaults();
   ::com::bitcoin::proto3::protobuf_PaymentV3_2eproto::InitDefaults();
-  _PaymentAck_default_instance_.DefaultConstruct();
-  _PaymentAck_default_instance_.get_mutable()->payment_ = const_cast< ::com::bitcoin::proto3::Payment*>(
+  _PaymentAck_default_instance_._instance.DefaultConstruct();
+  ::google::protobuf::internal::OnShutdownDestroyMessage(
+      &_PaymentAck_default_instance_);_PaymentAck_default_instance_._instance.get_mutable()->payment_ = const_cast< ::com::bitcoin::proto3::Payment*>(
       ::com::bitcoin::proto3::Payment::internal_default_instance());
 }
 
@@ -107,9 +104,10 @@ void InitDefaults() {
   static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
   ::google::protobuf::GoogleOnceInit(&once, &TableStruct::InitDefaultsImpl);
 }
+namespace {
 void AddDescriptorsImpl() {
   InitDefaults();
-  static const char descriptor[] = {
+  static const char descriptor[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\022PaymentAckV3.proto\022\022com.bitcoin.proto3"
       "\032\017PaymentV3.proto\"^\n\nPaymentAck\022,\n\007payme"
       "nt\030\001 \001(\0132\033.com.bitcoin.proto3.Payment\022\014\n"
@@ -121,14 +119,14 @@ void AddDescriptorsImpl() {
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "PaymentAckV3.proto", &protobuf_RegisterTypes);
   ::com::bitcoin::proto3::protobuf_PaymentV3_2eproto::AddDescriptors();
-  ::google::protobuf::internal::OnShutdown(&TableStruct::Shutdown);
 }
+} // anonymous namespace
 
 void AddDescriptors() {
   static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
   ::google::protobuf::GoogleOnceInit(&once, &AddDescriptorsImpl);
 }
-// Force AddDescriptors() to be called at static initialization time.
+// Force AddDescriptors() to be called at dynamic initialization time.
 struct StaticDescriptorInitializer {
   StaticDescriptorInitializer() {
     AddDescriptors();
@@ -174,8 +172,9 @@ PaymentAck::PaymentAck(const PaymentAck& from)
 
 void PaymentAck::SharedCtor() {
   memo_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  ::memset(&payment_, 0, reinterpret_cast<char*>(&responsetime_) -
-    reinterpret_cast<char*>(&payment_) + sizeof(responsetime_));
+  ::memset(&payment_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&responsetime_) -
+      reinterpret_cast<char*>(&payment_)) + sizeof(responsetime_));
   _cached_size_ = 0;
 }
 
@@ -186,9 +185,7 @@ PaymentAck::~PaymentAck() {
 
 void PaymentAck::SharedDtor() {
   memo_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  if (this != internal_default_instance()) {
-    delete payment_;
-  }
+  if (this != internal_default_instance()) delete payment_;
 }
 
 void PaymentAck::SetCachedSize(int size) const {
@@ -216,12 +213,17 @@ PaymentAck* PaymentAck::New(::google::protobuf::Arena* arena) const {
 
 void PaymentAck::Clear() {
 // @@protoc_insertion_point(message_clear_start:com.bitcoin.proto3.PaymentAck)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   memo_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (GetArenaNoVirtual() == NULL && payment_ != NULL) {
     delete payment_;
   }
   payment_ = NULL;
   responsetime_ = GOOGLE_ULONGLONG(0);
+  _internal_metadata_.Clear();
 }
 
 bool PaymentAck::MergePartialFromCodedStream(
@@ -237,7 +239,7 @@ bool PaymentAck::MergePartialFromCodedStream(
       // .com.bitcoin.proto3.Payment payment = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(10u)) {
+            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                input, mutable_payment()));
         } else {
@@ -249,11 +251,11 @@ bool PaymentAck::MergePartialFromCodedStream(
       // string memo = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(18u)) {
+            static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_memo()));
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-            this->memo().data(), this->memo().length(),
+            this->memo().data(), static_cast<int>(this->memo().length()),
             ::google::protobuf::internal::WireFormatLite::PARSE,
             "com.bitcoin.proto3.PaymentAck.memo"));
         } else {
@@ -265,7 +267,7 @@ bool PaymentAck::MergePartialFromCodedStream(
       // uint64 responseTime = 4;
       case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(32u)) {
+            static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
@@ -278,12 +280,11 @@ bool PaymentAck::MergePartialFromCodedStream(
 
       default: {
       handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+        if (tag == 0) {
           goto success;
         }
-        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
         break;
       }
     }
@@ -312,7 +313,7 @@ void PaymentAck::SerializeWithCachedSizes(
   // string memo = 2;
   if (this->memo().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->memo().data(), this->memo().length(),
+      this->memo().data(), static_cast<int>(this->memo().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
       "com.bitcoin.proto3.PaymentAck.memo");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
@@ -324,11 +325,16 @@ void PaymentAck::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt64(4, this->responsetime(), output);
   }
 
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
+  }
   // @@protoc_insertion_point(serialize_end:com.bitcoin.proto3.PaymentAck)
 }
 
 ::google::protobuf::uint8* PaymentAck::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
   // @@protoc_insertion_point(serialize_to_array_start:com.bitcoin.proto3.PaymentAck)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
@@ -343,7 +349,7 @@ void PaymentAck::SerializeWithCachedSizes(
   // string memo = 2;
   if (this->memo().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->memo().data(), this->memo().length(),
+      this->memo().data(), static_cast<int>(this->memo().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
       "com.bitcoin.proto3.PaymentAck.memo");
     target =
@@ -356,6 +362,10 @@ void PaymentAck::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(4, this->responsetime(), target);
   }
 
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  }
   // @@protoc_insertion_point(serialize_to_array_end:com.bitcoin.proto3.PaymentAck)
   return target;
 }
@@ -364,6 +374,11 @@ size_t PaymentAck::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:com.bitcoin.proto3.PaymentAck)
   size_t total_size = 0;
 
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
+  }
   // string memo = 2;
   if (this->memo().size() > 0) {
     total_size += 1 +
@@ -449,10 +464,12 @@ void PaymentAck::Swap(PaymentAck* other) {
   InternalSwap(other);
 }
 void PaymentAck::InternalSwap(PaymentAck* other) {
+  using std::swap;
   memo_.Swap(&other->memo_);
-  std::swap(payment_, other->payment_);
-  std::swap(responsetime_, other->responsetime_);
-  std::swap(_cached_size_, other->_cached_size_);
+  swap(payment_, other->payment_);
+  swap(responsetime_, other->responsetime_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata PaymentAck::GetMetadata() const {
@@ -472,9 +489,10 @@ void PaymentAck::clear_payment() {
   payment_ = NULL;
 }
 const ::com::bitcoin::proto3::Payment& PaymentAck::payment() const {
+  const ::com::bitcoin::proto3::Payment* p = payment_;
   // @@protoc_insertion_point(field_get:com.bitcoin.proto3.PaymentAck.payment)
-  return payment_ != NULL ? *payment_
-                         : *::com::bitcoin::proto3::Payment::internal_default_instance();
+  return p != NULL ? *p : *reinterpret_cast<const ::com::bitcoin::proto3::Payment*>(
+      &::com::bitcoin::proto3::_Payment_default_instance_);
 }
 ::com::bitcoin::proto3::Payment* PaymentAck::mutable_payment() {
   

@@ -20,7 +20,10 @@
 namespace com {
 namespace bitcoin {
 namespace proto3 {
-class PaymentDetailsDefaultTypeInternal : public ::google::protobuf::internal::ExplicitlyConstructed<PaymentDetails> {
+class PaymentDetailsDefaultTypeInternal {
+public:
+ ::google::protobuf::internal::ExplicitlyConstructed<PaymentDetails>
+     _instance;
 } _PaymentDetails_default_instance_;
 
 namespace protobuf_PaymentDetailsV3_2eproto {
@@ -33,20 +36,20 @@ namespace {
 }  // namespace
 
 PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::ParseTableField
-    const TableStruct::entries[] = {
+    const TableStruct::entries[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   {0, 0, 0, ::google::protobuf::internal::kInvalidMask, 0, 0},
 };
 
 PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::AuxillaryParseTableField
-    const TableStruct::aux[] = {
+    const TableStruct::aux[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ::google::protobuf::internal::AuxillaryParseTableField(),
 };
 PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::ParseTable const
-    TableStruct::schema[] = {
-  { NULL, NULL, 0, -1, -1, false },
+    TableStruct::schema[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
+  { NULL, NULL, 0, -1, -1, -1, -1, NULL, false },
 };
 
-const ::google::protobuf::uint32 TableStruct::offsets[] = {
+const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PaymentDetails, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -62,8 +65,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] = {
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PaymentDetails, somenewfield_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PaymentDetails, somenewint_),
 };
-
-static const ::google::protobuf::internal::MigrationSchema schemas[] = {
+static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(PaymentDetails)},
 };
 
@@ -93,27 +95,23 @@ void protobuf_RegisterTypes(const ::std::string&) {
 }
 
 }  // namespace
-
-void TableStruct::Shutdown() {
-  _PaymentDetails_default_instance_.Shutdown();
-  delete file_level_metadata[0].reflection;
-}
-
 void TableStruct::InitDefaultsImpl() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   ::google::protobuf::internal::InitProtobufDefaults();
   ::com::bitcoin::proto3::protobuf_OutputV3_2eproto::InitDefaults();
-  _PaymentDetails_default_instance_.DefaultConstruct();
-}
+  _PaymentDetails_default_instance_._instance.DefaultConstruct();
+  ::google::protobuf::internal::OnShutdownDestroyMessage(
+      &_PaymentDetails_default_instance_);}
 
 void InitDefaults() {
   static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
   ::google::protobuf::GoogleOnceInit(&once, &TableStruct::InitDefaultsImpl);
 }
+namespace {
 void AddDescriptorsImpl() {
   InitDefaults();
-  static const char descriptor[] = {
+  static const char descriptor[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\026PaymentDetailsV3.proto\022\022com.bitcoin.pr"
       "oto3\032\016OutputV3.proto\"\321\001\n\016PaymentDetails\022"
       "\017\n\007network\030\001 \001(\t\022+\n\007outputs\030\002 \003(\0132\032.com."
@@ -127,14 +125,14 @@ void AddDescriptorsImpl() {
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "PaymentDetailsV3.proto", &protobuf_RegisterTypes);
   ::com::bitcoin::proto3::protobuf_OutputV3_2eproto::AddDescriptors();
-  ::google::protobuf::internal::OnShutdown(&TableStruct::Shutdown);
 }
+} // anonymous namespace
 
 void AddDescriptors() {
   static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
   ::google::protobuf::GoogleOnceInit(&once, &AddDescriptorsImpl);
 }
-// Force AddDescriptors() to be called at static initialization time.
+// Force AddDescriptors() to be called at dynamic initialization time.
 struct StaticDescriptorInitializer {
   StaticDescriptorInitializer() {
     AddDescriptors();
@@ -193,8 +191,8 @@ PaymentDetails::PaymentDetails(const PaymentDetails& from)
     somenewfield_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.somenewfield_);
   }
   ::memcpy(&time_, &from.time_,
-    reinterpret_cast<char*>(&somenewint_) -
-    reinterpret_cast<char*>(&time_) + sizeof(somenewint_));
+    static_cast<size_t>(reinterpret_cast<char*>(&somenewint_) -
+    reinterpret_cast<char*>(&time_)) + sizeof(somenewint_));
   // @@protoc_insertion_point(copy_constructor:com.bitcoin.proto3.PaymentDetails)
 }
 
@@ -204,8 +202,9 @@ void PaymentDetails::SharedCtor() {
   payment_url_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   merchant_data_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   somenewfield_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  ::memset(&time_, 0, reinterpret_cast<char*>(&somenewint_) -
-    reinterpret_cast<char*>(&time_) + sizeof(somenewint_));
+  ::memset(&time_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&somenewint_) -
+      reinterpret_cast<char*>(&time_)) + sizeof(somenewint_));
   _cached_size_ = 0;
 }
 
@@ -247,14 +246,20 @@ PaymentDetails* PaymentDetails::New(::google::protobuf::Arena* arena) const {
 
 void PaymentDetails::Clear() {
 // @@protoc_insertion_point(message_clear_start:com.bitcoin.proto3.PaymentDetails)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   outputs_.Clear();
   network_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   memo_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   payment_url_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   merchant_data_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   somenewfield_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  ::memset(&time_, 0, reinterpret_cast<char*>(&somenewint_) -
-    reinterpret_cast<char*>(&time_) + sizeof(somenewint_));
+  ::memset(&time_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&somenewint_) -
+      reinterpret_cast<char*>(&time_)) + sizeof(somenewint_));
+  _internal_metadata_.Clear();
 }
 
 bool PaymentDetails::MergePartialFromCodedStream(
@@ -270,11 +275,11 @@ bool PaymentDetails::MergePartialFromCodedStream(
       // string network = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(10u)) {
+            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_network()));
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-            this->network().data(), this->network().length(),
+            this->network().data(), static_cast<int>(this->network().length()),
             ::google::protobuf::internal::WireFormatLite::PARSE,
             "com.bitcoin.proto3.PaymentDetails.network"));
         } else {
@@ -286,7 +291,7 @@ bool PaymentDetails::MergePartialFromCodedStream(
       // repeated .com.bitcoin.proto3.Output outputs = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(18u)) {
+            static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                 input, add_outputs()));
         } else {
@@ -298,7 +303,7 @@ bool PaymentDetails::MergePartialFromCodedStream(
       // uint64 time = 3;
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(24u)) {
+            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
@@ -312,7 +317,7 @@ bool PaymentDetails::MergePartialFromCodedStream(
       // uint64 expires = 4;
       case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(32u)) {
+            static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
@@ -326,11 +331,11 @@ bool PaymentDetails::MergePartialFromCodedStream(
       // string memo = 5;
       case 5: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(42u)) {
+            static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_memo()));
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-            this->memo().data(), this->memo().length(),
+            this->memo().data(), static_cast<int>(this->memo().length()),
             ::google::protobuf::internal::WireFormatLite::PARSE,
             "com.bitcoin.proto3.PaymentDetails.memo"));
         } else {
@@ -342,11 +347,11 @@ bool PaymentDetails::MergePartialFromCodedStream(
       // string payment_url = 6;
       case 6: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(50u)) {
+            static_cast< ::google::protobuf::uint8>(50u /* 50 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_payment_url()));
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-            this->payment_url().data(), this->payment_url().length(),
+            this->payment_url().data(), static_cast<int>(this->payment_url().length()),
             ::google::protobuf::internal::WireFormatLite::PARSE,
             "com.bitcoin.proto3.PaymentDetails.payment_url"));
         } else {
@@ -358,7 +363,7 @@ bool PaymentDetails::MergePartialFromCodedStream(
       // bytes merchant_data = 7;
       case 7: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(58u)) {
+            static_cast< ::google::protobuf::uint8>(58u /* 58 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
                 input, this->mutable_merchant_data()));
         } else {
@@ -370,11 +375,11 @@ bool PaymentDetails::MergePartialFromCodedStream(
       // string someNewField = 9;
       case 9: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(74u)) {
+            static_cast< ::google::protobuf::uint8>(74u /* 74 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_somenewfield()));
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-            this->somenewfield().data(), this->somenewfield().length(),
+            this->somenewfield().data(), static_cast<int>(this->somenewfield().length()),
             ::google::protobuf::internal::WireFormatLite::PARSE,
             "com.bitcoin.proto3.PaymentDetails.someNewField"));
         } else {
@@ -386,7 +391,7 @@ bool PaymentDetails::MergePartialFromCodedStream(
       // int32 someNewInt = 10;
       case 10: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(80u)) {
+            static_cast< ::google::protobuf::uint8>(80u /* 80 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
@@ -399,12 +404,11 @@ bool PaymentDetails::MergePartialFromCodedStream(
 
       default: {
       handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+        if (tag == 0) {
           goto success;
         }
-        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
         break;
       }
     }
@@ -427,7 +431,7 @@ void PaymentDetails::SerializeWithCachedSizes(
   // string network = 1;
   if (this->network().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->network().data(), this->network().length(),
+      this->network().data(), static_cast<int>(this->network().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
       "com.bitcoin.proto3.PaymentDetails.network");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
@@ -435,9 +439,10 @@ void PaymentDetails::SerializeWithCachedSizes(
   }
 
   // repeated .com.bitcoin.proto3.Output outputs = 2;
-  for (unsigned int i = 0, n = this->outputs_size(); i < n; i++) {
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->outputs_size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      2, this->outputs(i), output);
+      2, this->outputs(static_cast<int>(i)), output);
   }
 
   // uint64 time = 3;
@@ -453,7 +458,7 @@ void PaymentDetails::SerializeWithCachedSizes(
   // string memo = 5;
   if (this->memo().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->memo().data(), this->memo().length(),
+      this->memo().data(), static_cast<int>(this->memo().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
       "com.bitcoin.proto3.PaymentDetails.memo");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
@@ -463,7 +468,7 @@ void PaymentDetails::SerializeWithCachedSizes(
   // string payment_url = 6;
   if (this->payment_url().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->payment_url().data(), this->payment_url().length(),
+      this->payment_url().data(), static_cast<int>(this->payment_url().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
       "com.bitcoin.proto3.PaymentDetails.payment_url");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
@@ -479,7 +484,7 @@ void PaymentDetails::SerializeWithCachedSizes(
   // string someNewField = 9;
   if (this->somenewfield().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->somenewfield().data(), this->somenewfield().length(),
+      this->somenewfield().data(), static_cast<int>(this->somenewfield().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
       "com.bitcoin.proto3.PaymentDetails.someNewField");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
@@ -491,11 +496,16 @@ void PaymentDetails::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(10, this->somenewint(), output);
   }
 
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
+  }
   // @@protoc_insertion_point(serialize_end:com.bitcoin.proto3.PaymentDetails)
 }
 
 ::google::protobuf::uint8* PaymentDetails::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
   // @@protoc_insertion_point(serialize_to_array_start:com.bitcoin.proto3.PaymentDetails)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
@@ -503,7 +513,7 @@ void PaymentDetails::SerializeWithCachedSizes(
   // string network = 1;
   if (this->network().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->network().data(), this->network().length(),
+      this->network().data(), static_cast<int>(this->network().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
       "com.bitcoin.proto3.PaymentDetails.network");
     target =
@@ -512,10 +522,11 @@ void PaymentDetails::SerializeWithCachedSizes(
   }
 
   // repeated .com.bitcoin.proto3.Output outputs = 2;
-  for (unsigned int i = 0, n = this->outputs_size(); i < n; i++) {
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->outputs_size()); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageNoVirtualToArray(
-        2, this->outputs(i), deterministic, target);
+        2, this->outputs(static_cast<int>(i)), deterministic, target);
   }
 
   // uint64 time = 3;
@@ -531,7 +542,7 @@ void PaymentDetails::SerializeWithCachedSizes(
   // string memo = 5;
   if (this->memo().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->memo().data(), this->memo().length(),
+      this->memo().data(), static_cast<int>(this->memo().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
       "com.bitcoin.proto3.PaymentDetails.memo");
     target =
@@ -542,7 +553,7 @@ void PaymentDetails::SerializeWithCachedSizes(
   // string payment_url = 6;
   if (this->payment_url().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->payment_url().data(), this->payment_url().length(),
+      this->payment_url().data(), static_cast<int>(this->payment_url().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
       "com.bitcoin.proto3.PaymentDetails.payment_url");
     target =
@@ -560,7 +571,7 @@ void PaymentDetails::SerializeWithCachedSizes(
   // string someNewField = 9;
   if (this->somenewfield().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->somenewfield().data(), this->somenewfield().length(),
+      this->somenewfield().data(), static_cast<int>(this->somenewfield().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
       "com.bitcoin.proto3.PaymentDetails.someNewField");
     target =
@@ -573,6 +584,10 @@ void PaymentDetails::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(10, this->somenewint(), target);
   }
 
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  }
   // @@protoc_insertion_point(serialize_to_array_end:com.bitcoin.proto3.PaymentDetails)
   return target;
 }
@@ -581,14 +596,19 @@ size_t PaymentDetails::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:com.bitcoin.proto3.PaymentDetails)
   size_t total_size = 0;
 
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
+  }
   // repeated .com.bitcoin.proto3.Output outputs = 2;
   {
-    unsigned int count = this->outputs_size();
+    unsigned int count = static_cast<unsigned int>(this->outputs_size());
     total_size += 1UL * count;
     for (unsigned int i = 0; i < count; i++) {
       total_size +=
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->outputs(i));
+          this->outputs(static_cast<int>(i)));
     }
   }
 
@@ -732,16 +752,18 @@ void PaymentDetails::Swap(PaymentDetails* other) {
   InternalSwap(other);
 }
 void PaymentDetails::InternalSwap(PaymentDetails* other) {
+  using std::swap;
   outputs_.InternalSwap(&other->outputs_);
   network_.Swap(&other->network_);
   memo_.Swap(&other->memo_);
   payment_url_.Swap(&other->payment_url_);
   merchant_data_.Swap(&other->merchant_data_);
   somenewfield_.Swap(&other->somenewfield_);
-  std::swap(time_, other->time_);
-  std::swap(expires_, other->expires_);
-  std::swap(somenewint_, other->somenewint_);
-  std::swap(_cached_size_, other->_cached_size_);
+  swap(time_, other->time_);
+  swap(expires_, other->expires_);
+  swap(somenewint_, other->somenewint_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata PaymentDetails::GetMetadata() const {

@@ -61,8 +61,8 @@ namespace AbstractPB
   // TODO: Shouldn't really be using CPrim for std::string, since it's not a primitive
 
   struct CString : CPrim<std::string> {
-    CString() : CPrim() { c = val.c_str();}
-    CString(const std::string _val) : CPrim(_val) { c = val.c_str();}
+    CString() : CPrim<std::string>() { c = val.c_str();}
+    CString(const std::string _val) : CPrim<std::string>(_val) { c = val.c_str();}
 
     const char *c;
     const char *c_str() const { return val.c_str(); }
@@ -108,8 +108,8 @@ namespace AbstractPB
   // bytes abstraction
 
   struct CBytes : CPrim< std::vector<uint8_t> > {
-    CBytes() : CPrim() {}
-    CBytes(const std::string str) : CPrim() {
+    CBytes() : CPrim< std::vector<uint8_t> >() {}
+    CBytes(const std::string str) : CPrim< std::vector<uint8_t> >() {
       _isSet = true;
       val.resize(str.length());
       if (str.length() > 0) memcpy(val.data(),str.c_str(), str.length());
