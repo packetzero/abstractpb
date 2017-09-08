@@ -1,10 +1,15 @@
 #!/bin/bash
 
-mkdir -p apb
-./tools/bin/protoc --cppabs_out=apb --plugin=../protoc-plugin/bin/protoc-gen-cppabs -I messagesV3 messagesV3/*.proto
+GEN=
+OS=`uname -s`
 
-mkdir -p generatedcpp
-./tools/bin/protoc --cpp_out=generatedcpp -I messagesV3 messagesV3/*.proto
-./tools/bin/protoc --cpp_out=generatedcpp -I messagesV2 messagesV2/*.proto
+if [ "$OS" == "Darwin" ] ; then
+  GEN="-G Xcode"
+fi
 
+./scripts/gen-apb.sh \
+  && ./scripts/gen-cpp.sh \
+  && mkdir -p build && cd build && rm -f CMakeCache* \
+  && cmake $GEN .. \
+  && xcodebuild -configuration Release && xcodebuild -configuration Debug
 

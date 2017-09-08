@@ -115,6 +115,28 @@ module Protobuf
         content: @@sbFromPb.to_s
       )
 
+      # ObjC++ wrappers for MacOS OS X
+
+      files.push CodeGeneratorResponse::File.new(
+        name: "osx/apb_from_pb.hpp",
+        content: "// Need a .hpp file to specify mixed ObjectiveC and C++\n#include \"../apb_from_pb.h\"\n"
+      )
+
+      files.push CodeGeneratorResponse::File.new(
+        name: "osx/apb_from_pb.mm",
+        content: "// Need a .mm file to specify mixed ObjectiveC and C++\n#import \"apb_from_pb.hpp\"\n#include \"../apb_from_pb.cc\"\n"
+      )
+
+      files.push CodeGeneratorResponse::File.new(
+        name: "osx/apb_to_pb.hpp",
+        content: "// Need a .hpp file to specify mixed ObjectiveC and C++\n#include \"../apb_to_pb.h\"\n"
+      )
+
+      files.push CodeGeneratorResponse::File.new(
+        name: "osx/apb_to_pb.mm",
+        content: "// Need a .mm file to specify mixed ObjectiveC and C++\n#import \"apb_to_pb.hpp\"\n#include \"../apb_to_pb.cc\"\n"
+      )
+
       CodeGeneratorResponse.new(file: files)
     end
 
@@ -229,7 +251,7 @@ module Protobuf
 
                 if (f.isEnum)
                   enumType = f.absType.gsub(/.*</,"").gsub(">","")
-                  frompb_puts "dest.#{f.name} = (#{enumType})pb.#{cfield}(); // #{f.absType}" 
+                  frompb_puts "dest.#{f.name} = (#{enumType})pb.#{cfield}(); // #{f.absType}"
                   #topb_puts "if (apb.#{f.name}.isSet()) pb.set_#{cfield}((#{f.enumType})apb.#{f.name}.v());"
                 else
                   frompb_puts "dest.#{f.name} = pb.#{cfield}();"
