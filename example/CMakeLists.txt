@@ -15,19 +15,18 @@ ENDIF()
 
 
 
-include_directories(.. generatedcpp tools/${CMAKE_SYSTEM_NAME}/protobuf-release/src )
+include_directories(.. generatedcpp tools/protobuf-release/src tools/${CMAKE_SYSTEM_NAME}/protobuf-release/src )
 
-message("SRCS:${SRCS}")
 
-add_executable (${PROJECT_NAME} ${SRCS} )
+add_executable (${PROJECT_NAME} ${SRCS} ${HDRS})
 
 if (MSVC)
   set(CMAKE_CXX_FLAGS_DEBUG "/MTd /D_DEBUG /Zi /Ob0 /Od")
   set(CMAKE_CXX_FLAGS_RELEASE "/MT /Zi /O1 /Ob1")
 
   TARGET_LINK_LIBRARIES(${PROJECT_NAME}
-      debug     ${CMAKE_SOURCE_DIR}/tools/${CMAKE_SYSTEM_NAME}/protobuf-release/dest/lib/libprotobufd.lib
-      optimized ${CMAKE_SOURCE_DIR}/tools/${CMAKE_SYSTEM_NAME}/protobuf-release/dest/lib/libprotobuf.lib )
+	  debug     ${CMAKE_SOURCE_DIR}/tools/protobuf-release/cmake/build/Debug/libprotobufd.lib
+	  optimized ${CMAKE_SOURCE_DIR}/tools/protobuf-release/cmake/build/Release/libprotobuf.lib )
 else()
 
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
