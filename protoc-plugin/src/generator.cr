@@ -172,7 +172,11 @@ module Protobuf
                   topb_puts "   pb.add_#{cfield}(*it);  // #{f.absType}"
                 end
               else
-                topb_puts "   apb_init_pb_v#{ver}(*it, *pb.add_#{cfield}());"
+                if (f.isEnum)
+                  topb_puts "   pb.add_#{cfield}((#{f.enumType})*it);"
+                else
+                  topb_puts "   apb_init_pb_v#{ver}(*it, *pb.add_#{cfield}());"
+                end
               end
             else
               if (f.isPrimitive)
@@ -239,6 +243,10 @@ module Protobuf
                 else
                   frompb_puts "   dest.#{f.name}.push_back( *it);  // #{f.absType}"
                 end
+
+              elsif (f.isEnum)
+                enumType = f.absType.gsub(/.*</,"").gsub(">","")
+                frompb_puts "   dest.#{f.name}.push_back((#{enumType}) *it);"
               else
                 frompb_puts "{"
                 frompb_puts "   int idx = dest.#{f.name}.size();"
