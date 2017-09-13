@@ -68,6 +68,7 @@ namespace AbstractPB
     const char *c_str() const { return val.c_str(); }
     void operator= (const std::string& other) { _set(other); c = val.c_str(); }
     bool operator== (const std::string& other) { return val == other; }
+    uint32_t length() { return val.length(); }
 
 #ifdef __APPLE__
     CString(NSString* _val) : CPrim(STD_STRING(_val)) { c = val.c_str(); }
@@ -121,6 +122,19 @@ namespace AbstractPB
     }
     uint32_t size() { return val.size(); }
     const uint8_t *ptr() { return val.data(); }
+
+#ifdef __APPLE__
+CBytes(NSData* _val) : CPrim< std::vector<uint8_t> > () {
+  _isSet = true;
+  val.resize([_val length]);
+  if (val.size() > 0) memcpy(val.data(), _val.bytes , val.size());
+}
+void operator= (const NSData* other) {
+  _isSet = true;
+  val.resize([other length]);
+  if (val.size() > 0) memcpy(val.data(), other.bytes , val.size());
+}
+#endif
   };
 
   // primitive type wrappers
